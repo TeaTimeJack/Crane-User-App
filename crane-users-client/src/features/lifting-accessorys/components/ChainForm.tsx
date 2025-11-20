@@ -1,12 +1,48 @@
+import { useState, useEffect } from 'react';
+import data from '../data/accesories.json'
+import {capitalizeFirstLetter} from '../../../app/helpers.ts'
+
+
 
 
 const ChainForm = () => {
-    const widths = ['7\n9/32','8\n5/16','10\n3/8','13\n1/2', '16\n5/8','19\n3/4','22\n7/8','25.4\n1','32\n1 1/4']
+    const widths = data.chain.widths
     const numberOf = [1,2,3,4]
-    const angles = ["Straight", "Less then 90", "More then 90"]
+    const angles = data.angles
+    const [currentWLL, setCurrentWLL] = useState(0)
+    
+    const [selectedWidth, setSelectedWidth] = useState(0);
+    const [selectedNumberOf, setSelectedNumberOf] = useState(1);
+    const [selectedAngle, setSelectedAngle] = useState("straight");
+    const [selectedAngleNum, setSelectedAngleNum] = useState(1);
+
+
+    const handleNumberOf = (num1:number)=>{
+        setSelectedNumberOf(num1),
+        setSelectedAngle("straight")
+        setSelectedAngleNum(1)
+    }
+
+    const handeleAngle = (str:string,num:number)=>{
+        setSelectedAngle(str),
+        setSelectedAngleNum(num)
+    }
+
+    useEffect(() => {
+        
+        if(selectedAngle === "straight" ){
+            console.log("witdthVal",selectedWidth,"numberOf",selectedNumberOf)
+            setCurrentWLL(selectedWidth * selectedNumberOf)
+        }else{
+            setSelectedAngleNum(selectedNumberOf)
+            setCurrentWLL(selectedWidth * selectedAngleNum )
+            console.log("witdthVal",selectedWidth,"angle",selectedAngleNum);
+        }
+
+    }, [selectedWidth,selectedNumberOf,selectedAngle])
+    
   return (
     <div>
-        <form>
             <table>
                 <thead>
                     <tr>
@@ -14,14 +50,31 @@ const ChainForm = () => {
                             <h3>Select the correct information of the Chain</h3>
                         </td>
                     </tr>
+                    <tr>
+                        <td colSpan={1 + (widths ? widths.length : 0)} style={{textAlign: 'center', fontWeight: 'bold'}}>
+                            <span>Current WLL of the Chain: {currentWLL} KG</span>
+                        </td>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Width (m"m/Inch)</td>
+                        <td>Width (m"m)</td>
                         {widths && widths.map((item) =>{
+                            const isSelected = item.value === selectedWidth; 
                             return(
-                                <td key={item}>
-                                    <button style={{width: '100%'}}>{item}</button>
+                                <td key={item.mm}>
+                                    <button onClick={()=>setSelectedWidth(item.value)} style={{width: '100%', backgroundColor: isSelected? '#4CAF50':"#1a1a1a"}}>{item.mm}</button>
+                                </td>
+                            )
+                        })}
+                    </tr>
+                    <tr>
+                        <td>Width (Inch)</td>
+                        {widths && widths.map((item) =>{
+                            const isSelected = item.value === selectedWidth; 
+                            return(
+                                <td key={item.inch}>
+                                    <button onClick={()=>setSelectedWidth(item.value)} style={{width: '100%', backgroundColor: isSelected? '#4CAF50':"#1a1a1a"}}>{item.inch}</button>
                                 </td>
                             )
                         })}
@@ -29,9 +82,10 @@ const ChainForm = () => {
                     <tr>
                         <td>Number Of Chains on the Sling</td>
                         {numberOf && numberOf.map((item) =>{
+                             const isSelected = item === selectedNumberOf;
                             return(
                                 <td key={item}>
-                                    <button style={{width: '100%'}}>{item}</button>
+                                    <button onClick={()=>handleNumberOf(item)} style={{width: '100%', backgroundColor: isSelected? '#4CAF50':"#1a1a1a"}}>{item}</button>
                                 </td>
                             )
                         })}
@@ -39,18 +93,21 @@ const ChainForm = () => {
                     <tr>
                         <td>What is the Sling Angle</td>
                         {angles && angles.map((item) =>{
+                            const amountIndex = item.arr.findIndex(a => a.amount === selectedNumberOf)
+                            const isSelected = item.name === selectedAngle;
+                            
                             return(
-                                <td key={item}>
-                                    <button style={{width: '100%'}}>{item}</button>
+                                <td key={item.name}>
+                                    <button onClick={()=>handeleAngle(item.name,item.arr[amountIndex].value)} style={{width: '100%', backgroundColor: isSelected? '#4CAF50':"#1a1a1a"}}>{capitalizeFirstLetter(item.name)}</button>
                                 </td>
                             )
                         })}
                     </tr>
                 </tbody>
             </table>
-        </form>
     </div>
   )
 }
 
 export default ChainForm
+
