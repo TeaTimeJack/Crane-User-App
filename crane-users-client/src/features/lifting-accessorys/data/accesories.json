@@ -43,10 +43,7 @@
     "angles":[
         {"name":"straight",
         "arr":[
-            {"amount": 1, "value": 1},
-            {"amount": 2, "value": 1},
-            {"amount": 3, "value": 1},
-            {"amount": 4, "value": 1}
+            {"amount": 1, "value": 1}
         ]},
         {"name":"under 90",
         "arr":[

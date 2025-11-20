@@ -18,9 +18,20 @@ const ChainForm = () => {
 
 
     const handleNumberOf = (num1:number)=>{
-        setSelectedNumberOf(num1),
-        setSelectedAngle("straight")
-        setSelectedAngleNum(1)
+        if(num1 === 1){
+            setSelectedNumberOf(num1),
+            setSelectedAngle("straight")
+            setSelectedAngleNum(1)
+        }else if(num1 ===2){
+            setSelectedNumberOf(num1),
+            setSelectedAngle("under 90")
+            setSelectedAngleNum(1.4)
+        }else{
+            setSelectedNumberOf(num1),
+            setSelectedAngle("under 90")
+            setSelectedAngleNum(2.1)
+        }
+        
     }
 
     const handeleAngle = (str:string,num:number)=>{
@@ -93,9 +104,9 @@ const ChainForm = () => {
                     <tr>
                         <td>What is the Sling Angle</td>
                         {angles && angles.map((item) =>{
+                            
                             const amountIndex = item.arr.findIndex(a => a.amount === selectedNumberOf)
                             const isSelected = item.name === selectedAngle;
-                            
                             return(
                                 <td key={item.name}>
                                     <button onClick={()=>handeleAngle(item.name,item.arr[amountIndex].value)} style={{width: '100%', backgroundColor: isSelected? '#4CAF50':"#1a1a1a"}}>{capitalizeFirstLetter(item.name)}</button>
