@@ -1,12 +1,18 @@
+import { useState, useEffect } from 'react';
+import data from '../data/accesories.json'
+import {capitalizeFirstLetter} from '../../../app/helpers.ts'
 
 
 const StrapForm = () => {
-    const colors =['1000\nPurple','2000\nGreen', '3000\nYellow', '4000\nGrey', '5000\nRed', '6000\nBrown', '8000\nBlue', '10000\nOrange'];
+    const colors = data.strap.colors
     const numberOf =[1,2,3,4,5,6,7,8];
-    const angles = ["Straight", "Less then 90", "More then 90"]
+    const angles = data.angles;
+    const knotsTypes = data.knotTypes
+    
 
   return (
     <div>
+        <img src={`../../../../../images/knotTypes/straight.jpg`}/>
       <table>
         <thead>
             <tr>
@@ -17,17 +23,17 @@ const StrapForm = () => {
         </thead>
         <tbody>
             <tr>
-                <td>Width (m"m/Inch)</td>
+                <td>Strap Color</td>
                 {colors && colors.map((item) =>{
                     return(
-                        <td key={item}>
-                            <button style={{width: '100%'}}>{item}</button>
+                        <td key={item.color}>
+                            <button style={{width: '100%'}}>{capitalizeFirstLetter(item.color)}</button>
                         </td>
                     )
                 })}
             </tr>
             <tr>
-                <td>Number Of Chains on the Sling</td>
+                <td>Number Of Straps on the Sling</td>
                 {numberOf && numberOf.map((item) =>{
                     return(
                         <td key={item}>
@@ -37,6 +43,16 @@ const StrapForm = () => {
                 })}
             </tr>
             <tr>
+                <td>Knot Type</td>
+                {knotsTypes && knotsTypes.map((item) =>{
+                    return(
+                        <td key={item.name}>
+                            <button style={{width: '100%'}}><img src={`../../../../../images/knotTypes/${item.name}.png`} /></button>
+                        </td>
+                    )
+                })}
+            </tr>
+            {/* <tr>
                 <td>What is the Sling Angle</td>
                 {angles && angles.map((item) =>{
                     return(
@@ -45,7 +61,7 @@ const StrapForm = () => {
                         </td>
                     )
                 })}
-            </tr>
+            </tr> */}
         </tbody>
       </table>
     </div>

@@ -14,7 +14,7 @@
         ]
     },
     "strap":{
-        "widths": [
+        "colors": [
             {"numsOfSripes":1,"color": "purple", "value":1000},
             {"numsOfSripes":2,"color": "green", "value":2000},
             {"numsOfSripes":3,"color": "yellow", "value":3000}, 
@@ -57,6 +57,12 @@
             {"amount": 3, "value": 1.5},
             {"amount": 4, "value": 1.5}
         ]}
+    ],
+    "knotTypes":[
+        {"name":"straight", "value": 1},
+        {"name":"choke", "value": 0.8, "cableValue":0.5},
+        {"name":"open-hamek",  "value": 2},
+        {"name":"closed-hamek", "value": 1.4}
     ]
     
 

@@ -7,7 +7,7 @@ import {capitalizeFirstLetter} from '../../../app/helpers.ts'
 
 const ChainForm = () => {
     const widths = data.chain.widths
-    const numberOf = [1,2,3,4]
+    const numberOf = [1,2,3]
     const angles = data.angles
     const [currentWLL, setCurrentWLL] = useState(0)
     
@@ -96,7 +96,7 @@ const ChainForm = () => {
                              const isSelected = item === selectedNumberOf;
                             return(
                                 <td key={item}>
-                                    <button onClick={()=>handleNumberOf(item)} style={{width: '100%', backgroundColor: isSelected? '#4CAF50':"#1a1a1a"}}>{item}</button>
+                                    <button onClick={()=>handleNumberOf(item)} style={{width: '100%', backgroundColor: isSelected? '#4CAF50':"#1a1a1a"}}>{item ===3? "3+":item}</button>
                                 </td>
                             )
                         })}
@@ -104,9 +104,11 @@ const ChainForm = () => {
                     <tr>
                         <td>What is the Sling Angle</td>
                         {angles && angles.map((item) =>{
-                            
-                            const amountIndex = item.arr.findIndex(a => a.amount === selectedNumberOf)
                             const isSelected = item.name === selectedAngle;
+                            const amountIndex = item.arr.findIndex(a => a.amount === selectedNumberOf)
+                            if(amountIndex === -1){
+                                return
+                            }
                             return(
                                 <td key={item.name}>
                                     <button onClick={()=>handeleAngle(item.name,item.arr[amountIndex].value)} style={{width: '100%', backgroundColor: isSelected? '#4CAF50':"#1a1a1a"}}>{capitalizeFirstLetter(item.name)}</button>
@@ -115,7 +117,7 @@ const ChainForm = () => {
                         })}
                     </tr>
                 </tbody>
-            </table>
+            </table>           
     </div>
   )
 }
