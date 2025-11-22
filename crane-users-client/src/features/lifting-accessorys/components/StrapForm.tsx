@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import data from '../data/accesories.json'
 import {capitalizeFirstLetter} from '../../../app/helpers.ts'
+import straightKnotImg from '../../../assets/images/knotTypes/straight.jpg';
+import chokeKnotImg from '../../../assets/images/knotTypes/choke.jpg';
+import openHamekKnotImg from '../../../assets/images/knotTypes/open-hamek.jpg';
+import closedHamekKnotImg from '../../../assets/images/knotTypes/closed-hamek.jpg';
 
 
 const StrapForm = () => {
@@ -8,11 +12,16 @@ const StrapForm = () => {
     const numberOf =[1,2,3,4,5,6,7,8];
     const angles = data.angles;
     const knotsTypes = data.knotTypes
+    const knotsIMG =[
+        {name:"straight", image: straightKnotImg},
+        {name:"choke", image: chokeKnotImg},
+        {name:"open-hamek",  image: openHamekKnotImg},
+        {name:"closed-hamek", image: closedHamekKnotImg}
+    ]
     
 
   return (
     <div>
-        <img src={`../../../../../images/knotTypes/straight.jpg`}/>
       <table>
         <thead>
             <tr>
@@ -45,9 +54,11 @@ const StrapForm = () => {
             <tr>
                 <td>Knot Type</td>
                 {knotsTypes && knotsTypes.map((item) =>{
+
+                    const imgIndex = knotsIMG.findIndex(img => item.name === img.name)
                     return(
                         <td key={item.name}>
-                            <button style={{width: '100%'}}><img src={`../../../../../images/knotTypes/${item.name}.png`} /></button>
+                            <button style={{width: '100%'}}>{capitalizeFirstLetter(item.name)}<img src={knotsIMG[imgIndex].image}/></button>
                         </td>
                     )
                 })}
