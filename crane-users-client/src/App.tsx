@@ -17,7 +17,8 @@ function App() {
   return (
     <>
       <nav>
-         <div style = {{display: "flex", gap:"10px"}}>
+         <div className="nav-wrapper">
+          <a href="#" data-target="mobile-demo" className="sidenav-trigger"><i className="material-icons">menu</i></a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li><Link to={'/'}>Home</Link></li>
             <li><Link to={'/login'}>Login</Link></li>
@@ -30,6 +31,18 @@ function App() {
           </ul>          
         </div>
       </nav>
+      <ul className="sidenav" id="mobile-demo">
+        <li><Link to={'/'}>Home</Link></li>
+            <li><Link to={'/login'}>Login</Link></li>
+            <li><Link to={'/register'}>Register</Link></li>
+            <li><Link to={'/profile'}>Profile</Link></li>
+            <li><Link to={'/shop'}>Shop</Link></li>
+            <li><Link to={'/news'}>News</Link></li>
+            <li><Link to={'/liftingCalculator'}>Lifting-Calculator</Link></li>
+            <li><Link to={'/chat'}>Chat</Link></li>
+      </ul>
+
+       
       <h1>App</h1>
 
       <Routes>

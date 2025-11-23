@@ -1,7 +1,7 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import type {UserType, UserTypeFromAPI} from "../../../types/types.ts"
+import type {UserTypeFromAPI} from "../../../types/types.ts"
 
 const INFO_URL = "http://localhost:5005/api/user/info";
 

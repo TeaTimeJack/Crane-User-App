@@ -5,7 +5,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import type {RootState, AppDispatch} from '../../app/store.ts'
 import {fetchUserInfo} from './state/userInfoSlice.ts'
 import {capitalizeFirstLetter} from '../../app/helpers.ts'
-import  defProfilePic from "../../assets/images/profile/def-profile-pic-small.jpg";
+import  defProfilePic from "../../assets/images/profile/def-profile-pic.jpg";
 
 
 const Profile = () => {
@@ -27,10 +27,10 @@ const Profile = () => {
         {userInfo && 
         <>
         <h3>Hello {capitalizeFirstLetter(userInfo.first_name)} {capitalizeFirstLetter(userInfo.last_name)}</h3>
-        {/* <img className={"responsive-img circle"} style={{border:"1px solid purple"}}/> */}
+        <img className={"responsive-img circle"} style={{border:"1px solid purple", height:"20vh" }} src={defProfilePic}/>
         <p>Your Email: {userInfo.email}</p>
         <p>Your Phone Number: {userInfo.phone_number}</p>
-        <p>Your Phone Role: {capitalizeFirstLetter(userInfo.role)}</p>
+        <p>Your Role: {capitalizeFirstLetter(userInfo.role)}</p>
 
 
 
