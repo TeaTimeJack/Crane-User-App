@@ -5,12 +5,15 @@ import App from './App.tsx'
 import { Provider } from 'react-redux'
 import {BrowserRouter} from 'react-router'
 import store from './app/store.ts'
+import {AuthProvider} from './features/auth/useAuth.js';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </Provider>
   </StrictMode>,

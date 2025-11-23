@@ -10,6 +10,7 @@ import News from './features/news/News'
 import LiftingCalculator from './features/lifting-accessorys/LiftingCalculator'
 import Chat from './features/chat-platform/Chat'
 
+
 function App() {
  
 
@@ -17,14 +18,16 @@ function App() {
     <>
       <nav>
          <div style = {{display: "flex", gap:"10px"}}>
-          <Link to={'/'}>Home</Link>
-          <Link to={'/login'}>Login</Link>
-          <Link to={'/register'}>Register</Link>
-          <Link to={'/profile'}>Profile</Link>
-          <Link to={'/shop'}>Shop</Link>
-          <Link to={'/news'}>News</Link>
-          <Link to={'/liftingCalculator'}>Lifting-Calculator</Link>
-          <Link to={'/chat'}>Chat</Link>
+          <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <li><Link to={'/'}>Home</Link></li>
+            <li><Link to={'/login'}>Login</Link></li>
+            <li><Link to={'/register'}>Register</Link></li>
+            <li><Link to={'/profile'}>Profile</Link></li>
+            <li><Link to={'/shop'}>Shop</Link></li>
+            <li><Link to={'/news'}>News</Link></li>
+            <li><Link to={'/liftingCalculator'}>Lifting-Calculator</Link></li>
+            <li><Link to={'/chat'}>Chat</Link></li>
+          </ul>          
         </div>
       </nav>
       <h1>App</h1>

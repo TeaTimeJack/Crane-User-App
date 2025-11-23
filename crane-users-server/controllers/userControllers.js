@@ -1,14 +1,20 @@
-import { registerUser, getUserByEmail, getUsers } from "../models/userModel.js";
+import { registerUser, getUserByEmail, getUsers ,getUserByUserID} from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import {config} from 'dotenv'
+import { config } from "dotenv";
 
 config();
 
 export const register = async (req, res) => {
-  const { email, password, firstName, lastName, phoneNum } = req.body;
+  const { email, password, firstName, lastName, phoneNumber } = req.body;
   try {
-    const user = await registerUser(email, password);
+    const user = await registerUser(
+      email,
+      password,
+      firstName,
+      lastName,
+      phoneNumber
+    );
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
     if (error.code === "23505") {
@@ -28,7 +34,7 @@ export const login = async (req, res) => {
       return;
     }
 
-    const match = await bcrypt.compare(password + "", user.password);
+    const match = await bcrypt.compare(password + "", user.password_hash);
     if (!match) {
       res.status(404).json({ message: `Wrong password` });
       return;
@@ -38,7 +44,14 @@ export const login = async (req, res) => {
 
     // generate accsess token for 1 day
     const accessToken = jwt.sign(
-      { userid: user.id, email: user.email, userfirstName: user.first_name, userLastName: user.last_name, userPhoneNumber: user.phone_number},
+      {
+        userid: user.id,
+        email: user.email,
+        userfirstName: user.first_name,
+        userLastName: user.last_name,
+        userPhoneNumber: user.phone_number,
+        userRole: user.role,
+      },
       SECRET,
       { expiresIn: "1d" }
     );
@@ -50,7 +63,14 @@ export const login = async (req, res) => {
 
     res.status(200).json({
       message: "login succesfulllly",
-      user: {  userid: user.id, email: user.email, userfirstName: user.first_name, userLastName: user.last_name, userPhoneNumber: user.phone_number },
+      user: {
+        userid: user.id,
+        email: user.email,
+        userfirstName: user.first_name,
+        userLastName: user.last_name,
+        userPhoneNumber: user.phone_number,
+        userRole: user.role,
+      },
       token: accessToken,
     });
   } catch (error) {
@@ -66,6 +86,19 @@ export const users = async (req, res) => {
 
     const users = await getUsers();
     res.json(users);
+  } catch (error) {
+    console.log("error=>", error);
+    res.status(500).json({ message: "internall error" });
+  }
+};
+
+export const userInfo = async (req, res) => {
+  try {
+    console.log(req.user.userid);
+    console.log(req.user.email);
+
+    const theUserInfo = await getUserByUserID(req.user.userid);
+    res.json(theUserInfo);
   } catch (error) {
     console.log("error=>", error);
     res.status(500).json({ message: "internall error" });
