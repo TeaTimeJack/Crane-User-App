@@ -1,4 +1,9 @@
-import { registerUser, getUserByEmail, getUsers ,getUserByUserID} from "../models/userModel.js";
+import {
+  registerUser,
+  getUserByEmail,
+  getUsers,
+  getUserByUserID,
+} from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv";

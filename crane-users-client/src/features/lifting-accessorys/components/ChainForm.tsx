@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import data from '../data/accesories.json'
 import {capitalizeFirstLetter} from '../../../app/helpers.ts'
-
-
+// import BigNumber from 'bignumber.js'
 
 
 const ChainForm = () => {
@@ -11,50 +10,51 @@ const ChainForm = () => {
     const angles = data.angles
     const [currentWLL, setCurrentWLL] = useState(0)
     
-    const [selectedWidth, setSelectedWidth] = useState(0);
-    const [selectedNumberOf, setSelectedNumberOf] = useState(1);
-    const [selectedAngle, setSelectedAngle] = useState("straight");
-    const [selectedAngleNum, setSelectedAngleNum] = useState(1);
+    const [selectedWidth, setSelectedWidth] = useState<number>(0);
+    const [selectedNumberOf, setSelectedNumberOf] = useState<number>(1);
+    const [selectedAngle, setSelectedAngle] = useState<string>("straight");
+    const [selectedAngleValue, setSelectedAngleValue] = useState<number>(1);
 
 
     const handleNumberOf = (num1:number)=>{
         if(num1 === 1){
             setSelectedNumberOf(num1),
             setSelectedAngle("straight")
-            setSelectedAngleNum(1)
+            setSelectedAngleValue(1)
         }else if(num1 ===2){
             setSelectedNumberOf(num1),
-            setSelectedAngle("under 90")
-            setSelectedAngleNum(1.4)
+            setSelectedAngle("under_90")
+            setSelectedAngleValue(1.4)
         }else{
             setSelectedNumberOf(num1),
-            setSelectedAngle("under 90")
-            setSelectedAngleNum(2.1)
-        }
-        
+            setSelectedAngle("under_90")
+            setSelectedAngleValue(2.1)
+        } 
     }
 
     const handeleAngle = (str:string,num:number)=>{
         setSelectedAngle(str),
-        setSelectedAngleNum(num)
+        setSelectedAngleValue(num)
     }
 
-    useEffect(() => {
-        
+    useEffect(() => {   
         if(selectedAngle === "straight" ){
             console.log("witdthVal",selectedWidth,"numberOf",selectedNumberOf)
             setCurrentWLL(selectedWidth * selectedNumberOf)
         }else{
-            setSelectedAngleNum(selectedNumberOf)
-            setCurrentWLL(selectedWidth * selectedAngleNum )
-            console.log("witdthVal",selectedWidth,"angle",selectedAngleNum);
+            // setSelectedAngleValue(selectedNumberOf)
+            // const a:any= new BigNumber(selectedWidth)
+            // const b:any= new BigNumber(selectedAngleValue)
+            // const result = a.multipliedBy(b)
+            setCurrentWLL(selectedWidth * selectedAngleValue)
+            console.log("witdthVal",selectedWidth,"angle",selectedAngleValue);
         }
 
     }, [selectedWidth,selectedNumberOf,selectedAngle])
     
   return (
     <div>
-            <table>
+            <table className="centered">
                 <thead>
                     <tr>
                         <td colSpan={1 + (widths ? widths.length : 0)} style={{textAlign: 'center', fontWeight: 'bold'}}>
@@ -74,7 +74,7 @@ const ChainForm = () => {
                             const isSelected = item.value === selectedWidth; 
                             return(
                                 <td key={item.mm}>
-                                    <button onClick={()=>setSelectedWidth(item.value)} style={{width: '100%', backgroundColor: isSelected? '#4CAF50':"#1a1a1a"}}>{item.mm}</button>
+                                    <button onClick={()=>setSelectedWidth(item.value)} className={isSelected? "btn teal": "btn grey"}>{item.mm}</button>
                                 </td>
                             )
                         })}
@@ -85,7 +85,7 @@ const ChainForm = () => {
                             const isSelected = item.value === selectedWidth; 
                             return(
                                 <td key={item.inch}>
-                                    <button onClick={()=>setSelectedWidth(item.value)} style={{width: '100%', backgroundColor: isSelected? '#4CAF50':"#1a1a1a"}}>{item.inch}</button>
+                                    <button onClick={()=>setSelectedWidth(item.value)} className={isSelected? "btn teal": "btn grey"}>{item.inch}</button>
                                 </td>
                             )
                         })}
@@ -96,7 +96,7 @@ const ChainForm = () => {
                              const isSelected = item === selectedNumberOf;
                             return(
                                 <td key={item}>
-                                    <button onClick={()=>handleNumberOf(item)} style={{width: '100%', backgroundColor: isSelected? '#4CAF50':"#1a1a1a"}}>{item ===3? "3+":item}</button>
+                                    <button onClick={()=>handleNumberOf(item)} className={isSelected? "btn teal": "btn grey"}>{item ===3? "3+":item}</button>
                                 </td>
                             )
                         })}
@@ -111,7 +111,7 @@ const ChainForm = () => {
                             }
                             return(
                                 <td key={item.name}>
-                                    <button onClick={()=>handeleAngle(item.name,item.arr[amountIndex].value)} style={{width: '100%', backgroundColor: isSelected? '#4CAF50':"#1a1a1a"}}>{capitalizeFirstLetter(item.name)}</button>
+                                    <button onClick={()=>handeleAngle(item.name,item.arr[amountIndex].value)} className={isSelected? "btn teal ": "btn grey"}>{capitalizeFirstLetter(item.name)}</button>
                                 </td>
                             )
                         })}

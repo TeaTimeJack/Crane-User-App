@@ -43,15 +43,18 @@
     "angles":[
         {"name":"straight",
         "arr":[
-            {"amount": 1, "value": 1}
+            {"amount": 1, "value": 1},
+            {"amount": 2, "value": 1.4},
+            {"amount": 3, "value": 2.1},
+            {"amount": 4, "value": 2.1}
         ]},
-        {"name":"under 90",
+        {"name":"under_90",
         "arr":[
             {"amount": 2, "value": 1.4},
             {"amount": 3, "value": 2.1},
             {"amount": 4, "value": 2.1}
         ]},
-        {"name":"between 90-120",
+        {"name":"between_90_120",
         "arr":[
             {"amount": 2, "value": 1},
             {"amount": 3, "value": 1.5},

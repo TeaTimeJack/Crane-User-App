@@ -37,13 +37,19 @@ const LiftingCalculator = () => {
   
   return (
     <>
+    
       <div>
         <h2>Lifting Calculator</h2>
-        <button onClick={()=>toggleChain()}>Chain</button> 
-        <button onClick={()=>toggleStrap()}>Strap</button>
-        <button onClick={()=>toggleCable()}>Cable</button>
+        <div className="row">
+          <ul id="nav-mobile" className="center">
+              <li className="col s4"><button className="waves-effect waves-light btn-large" onClick={()=>toggleChain()}>Chain</button> </li>
+              <li className="col s4"><button className="waves-effect waves-light btn-large" onClick={()=>toggleStrap()}>Strap</button></li>
+              <li className="col s4"><button className="waves-effect waves-light btn-large" onClick={()=>toggleCable()}>Cable</button></li>
+          </ul>
+        </div>
+        
       </div>
-      { isChainPressed && <ChainForm />}
+      {isChainPressed && <ChainForm />}
       {isStrapPressed && <StrapForm />}
       {isCablePressed && <CableForm />}
       

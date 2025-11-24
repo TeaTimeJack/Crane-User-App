@@ -1,15 +1,10 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import type {UserTypeFromAPI} from "../../../types/types.ts"
+import type {UserTypeFromAPI, licenseTypeFromAPI} from "../../../types/types.ts"
 
 const INFO_URL = "http://localhost:5005/api/user/info";
 
-// export const fetchUserInfo = createAsyncThunk("posts/fetch", async () => {
-//   const response = await fetch(INFO_URL);
-//   const data = await response.json();
-//   return data;
-// });
 export const fetchUserInfo = createAsyncThunk("userinfo/fetch", async () => {
     try {
         const response = await axios.get(INFO_URL,{
@@ -23,18 +18,25 @@ export const fetchUserInfo = createAsyncThunk("userinfo/fetch", async () => {
 
 interface initialStateType {
     info:UserTypeFromAPI | null;
+    license: licenseTypeFromAPI | null;
     status: "idle" | "loading" | "success" | "failed";
 }
 
 const initialState:initialStateType = {
   info: null,
+  license: null,
   status: "idle",
 };
 
 const userInfoSlice = createSlice({
   name: "userInfo",
   initialState,
-  reducers: {},
+  reducers: {
+    logOut:(state) =>{
+      state.info = null;
+      state.status = "idle";
+    }
+  },
   extraReducers(builder) {
     builder.addCase(fetchUserInfo.pending, (state) => {
       state.status = "loading";
@@ -49,5 +51,5 @@ const userInfoSlice = createSlice({
   },
 });
 
-export const {} = userInfoSlice.actions;
+export const {logOut} = userInfoSlice.actions;
 export default userInfoSlice.reducer;
