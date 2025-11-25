@@ -1,14 +1,8 @@
 import { dbneon } from "../config/db.js";
 import bcrypt from "bcrypt";
 
-export const registerUser = async (
-  email,
-  password,
-  first_name,
-  last_name,
-  phone_number,
-  role
-) => {
+export const registerUser = async (userInfoRegister, licenseInfoRegister) => {
+  const {email,password,first_name,last_name,phone_number,role} = userInfoRegister
   const trx = await dbneon.transaction();
   try {
     const hashPassword = await bcrypt.hash(password + "", 10);
@@ -20,10 +14,26 @@ export const registerUser = async (
         first_name: first_name.toLowerCase(),
         last_name: last_name.toLowerCase(),
         phone_number: phone_number,
-        role,
+        role: role,
       },
       ["email", "id", "first_name", "last_name", "phone_number", "role"]
     );
+
+    if(licenseInfoRegister){
+      const {license_number, certification, license_max_load, start_date, end_date} = licenseInfoRegister;
+      const [license] = await trx("licenses").insert(
+      {
+        user_id: user.id,
+        license_number,
+        certification,
+        license_max_load,
+        start_date,
+        end_date
+      },
+      [ "license_id","user_id","license_number", "certification", "license_max_load", "start_date", "end_date"]
+    );
+    }
+    
 
     await trx.commit();
   } catch (err) {
@@ -67,6 +77,27 @@ export const getUserByUserID = async (id) => {
       .where({ id })
       .first();
     return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getLicenseByUserID = async (id) => {
+  try {
+    const userWithLicense = await dbneon("users")
+      .select(
+        "licenses.license_id",
+        "licenses.license_number",
+        "licenses.certification",
+        "licenses.license_max_load",
+        "licenses.start_date",
+        "licenses.end_date"
+      )
+      .leftJoin("licenses", "users.id", "licenses.user_id")
+      .where("users.id", id)
+      .first();
+
+    return userWithLicense;
   } catch (error) {
     throw error;
   }

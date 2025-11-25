@@ -25,7 +25,9 @@ app.use(
   })
 );
 
-const rows = await dbneon("users");
-console.log("users", rows);
+const userRows = await dbneon("users");
+console.log("users", userRows);
+const licenceRows = await dbneon("licenses");
+console.log("licenses", licenceRows);
 
 app.use("/api/user", userRouter);

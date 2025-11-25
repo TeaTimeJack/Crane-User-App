@@ -4,6 +4,7 @@ import axios from "axios";
 import type {UserTypeFromAPI, licenseTypeFromAPI} from "../../../types/types.ts"
 
 const INFO_URL = "http://localhost:5005/api/user/info";
+const LICENSE_URL = "http://localhost:5005/api/user/license";
 
 export const fetchUserInfo = createAsyncThunk("userinfo/fetch", async () => {
     try {
@@ -12,20 +13,34 @@ export const fetchUserInfo = createAsyncThunk("userinfo/fetch", async () => {
         })
         return response.data
     } catch (error) {
-        console.log("the eror happens when u fetch user info: ", error);
+        // console.log("the eror happens when u fetch user info: ", error);
+        throw  error;
+    }
+});
+export const fetchLicenseInfo = createAsyncThunk("licenseinfo/fetch", async () => {
+    try {
+        const response = await axios.get(LICENSE_URL,{
+            withCredentials:true
+        })
+        return response.data
+    } catch (error) {
+        console.log("the eror happens when u fetch License info: ", error);
+        throw  error;
     }
 });
 
 interface initialStateType {
     info:UserTypeFromAPI | null;
     license: licenseTypeFromAPI | null;
-    status: "idle" | "loading" | "success" | "failed";
+    infoStatus: "idle" | "loading" | "success" | "failed";
+    licenseStatus: "idle" | "loading" | "success" | "failed";
 }
 
 const initialState:initialStateType = {
   info: null,
   license: null,
-  status: "idle",
+  infoStatus: "idle",
+  licenseStatus: "idle"
 };
 
 const userInfoSlice = createSlice({
@@ -34,19 +49,31 @@ const userInfoSlice = createSlice({
   reducers: {
     logOut:(state) =>{
       state.info = null;
-      state.status = "idle";
+      state.infoStatus = "idle";
+      state.license = null;
+      state.licenseStatus = "idle";
     }
   },
   extraReducers(builder) {
     builder.addCase(fetchUserInfo.pending, (state) => {
-      state.status = "loading";
-    }),
+      state.infoStatus = "loading";
+    });
       builder.addCase(fetchUserInfo.fulfilled, (state, action) => {
-        state.status = "success";
-        state.info = action.payload;
-      }),
+        state.infoStatus = "success";
+        state.info = action.payload; 
+      });
       builder.addCase(fetchUserInfo.rejected, (state) => {
-        state.status = "failed";
+        state.infoStatus = "failed";
+      });
+      builder.addCase(fetchLicenseInfo.pending, (state) => {
+      state.licenseStatus = "loading";
+    });
+      builder.addCase(fetchLicenseInfo.fulfilled, (state, action) => {
+        state.licenseStatus = "success";
+        state.license = action.payload; 
+      });
+      builder.addCase(fetchLicenseInfo.rejected, (state) => {
+        state.licenseStatus = "failed";
       });
   },
 });

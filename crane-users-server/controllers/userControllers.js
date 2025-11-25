@@ -10,16 +10,23 @@ import { config } from "dotenv";
 
 config();
 
+const validateData =(data)=>{
+  Object.values(data).forEach((value) =>{
+    if(!value){
+      return  null
+    }
+  })
+  return data 
+}
+
 export const register = async (req, res) => {
-  const { email, password, firstName, lastName, phoneNumber } = req.body;
+  const { email, password, firstName, lastName, phoneNumber, license_number, certification, license_max_load, start_date, end_date} = req.body;
+  const userInfoRegister = {email, password, firstName, lastName, phoneNumber}
+  let licenseInfoRegister = {license_number, certification, license_max_load, start_date, end_date}
+  licenseInfoRegister = validateData(licenseInfoRegister)
   try {
-    const user = await registerUser(
-      email,
-      password,
-      firstName,
-      lastName,
-      phoneNumber
-    );
+    const user = await registerUser(userInfoRegister, licenseInfoRegister);
+
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
     if (error.code === "23505") {
@@ -99,11 +106,24 @@ export const users = async (req, res) => {
 
 export const userInfo = async (req, res) => {
   try {
-    console.log(req.user.userid);
-    console.log(req.user.email);
-
+    // console.log(req.user.userid);
+    // console.log(req.user.email);
     const theUserInfo = await getUserByUserID(req.user.userid);
     res.json(theUserInfo);
+  } catch (error) {
+    console.log("error=>", error);
+    res.status(500).json({ message: "internall error" });
+  }
+};
+
+export const userLicense = async (req, res) => {
+  try {
+    const theUserInfo = await getUserByUserID(req.user.userid);
+    if(theUserInfo.role ==="guest"){
+      res.status(404).json({message: "A license for this User was not Found"})
+    }
+    const theUserLicenses = await getLicenseByUserID(theUserInfo.id)
+    res.json(theUserLicenses);
   } catch (error) {
     console.log("error=>", error);
     res.status(500).json({ message: "internall error" });

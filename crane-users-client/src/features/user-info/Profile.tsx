@@ -1,8 +1,8 @@
 import { useEffect} from 'react';
-import type {UserTypeFromAPI} from '../../types/types.ts'
+import type {UserTypeFromAPI, licenseTypeFromAPI} from '../../types/types.ts'
 import {useSelector, useDispatch} from 'react-redux'
 import type {RootState, AppDispatch} from '../../app/store.ts'
-import {fetchUserInfo} from './state/userInfoSlice.ts'
+import {fetchUserInfo, fetchLicenseInfo} from './state/userInfoSlice.ts'
 import {capitalizeFirstLetter} from '../../app/helpers.ts'
 import  defProfilePic from "../../assets/images/profile/def-profile-pic.jpg";
 import {useNavigate} from 'react-router'
@@ -12,17 +12,26 @@ import LogoutButton from '../login/LogoutButton'
 
 const Profile = () => {
   const userInfo:UserTypeFromAPI|null = useSelector((state: RootState)=>state.userInfoReducer.info)
-  const status = useSelector((state: RootState)=>state.userInfoReducer.status)
+  const infostatus = useSelector((state: RootState)=>state.userInfoReducer.infoStatus)
+  const licenseInfo:licenseTypeFromAPI|null = useSelector((state: RootState)=>state.userInfoReducer.license)
+  const licensestatus = useSelector((state: RootState)=>state.userInfoReducer.licenseStatus)
   const dispatch:AppDispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(()=>{
       dispatch(fetchUserInfo());
+
+      if(userInfo && userInfo.role !== "guest"){
+        dispatch(fetchLicenseInfo());
+      }
   },[])
 
-    if(status === "loading") return <h2> loading...</h2>;
-    if(status === "failed") return <h2>Opps....</h2>
-    if(status === "idle") return (
+    if(infostatus === "loading") return <h2> loading...</h2>;
+    if(infostatus === "failed") return (<div className="row">
+        <h2>OOPS...</h2> 
+        <h2>To see this page - <a className="btn-large" onClick={()=>navigate("/login")}>Log in</a></h2>
+      </div>)
+    if(infostatus === "idle") return (
       <div className="row">
         <h2>To see this page - <a className="btn-large" onClick={()=>navigate("/login")}>Log in</a></h2>
       </div>
@@ -55,12 +64,22 @@ const Profile = () => {
           <li><p> <i className="material-icons prefix">email</i> Your Email: {userInfo.email}</p></li>
           <li><p> <i className="material-icons prefix">phone</i> Your Phone Number: {userInfo.phone_number}</p></li>
           <li><p> <i className="material-icons prefix">business_center</i> Your Role: {capitalizeFirstLetter(userInfo.role)}</p></li>
-        </ul>
+          
+           </ul>
         
         <LogoutButton/>
         </>
-        
         }
+        {licenseInfo&& <>
+          <ul>
+            <li><h5>License Info:</h5></li>
+            <li><p> <i className="material-icons prefix">email</i> Your licenses number: {licenseInfo.licenses_number}</p></li>
+            <li><p> <i className="material-icons prefix">phone</i> Your certification: {licenseInfo.certification}</p></li>
+            <li><p> <i className="material-icons prefix">business_center</i> Your licenses max load: {capitalizeFirstLetter(licenseInfo.licenses_max_load)}</p></li>
+            <li><p> <i className="material-icons prefix">business_center</i> Your licenses start date: {capitalizeFirstLetter(licenseInfo.start_date)}</p></li>
+            <li><p> <i className="material-icons prefix">business_center</i> Your licenses end date: {capitalizeFirstLetter(licenseInfo.end_date)}</p></li>
+          </ul>
+        </>}
     </div>
   )
 }
