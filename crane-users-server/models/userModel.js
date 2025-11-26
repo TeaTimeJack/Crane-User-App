@@ -2,7 +2,8 @@ import { dbneon } from "../config/db.js";
 import bcrypt from "bcrypt";
 
 export const registerUser = async (userInfoRegister, licenseInfoRegister) => {
-  const {email,password,first_name,last_name,phone_number,role} = userInfoRegister
+  const { email, password, first_name, last_name, phone_number, role } =
+    userInfoRegister;
   const trx = await dbneon.transaction();
   try {
     const hashPassword = await bcrypt.hash(password + "", 10);
@@ -19,21 +20,34 @@ export const registerUser = async (userInfoRegister, licenseInfoRegister) => {
       ["email", "id", "first_name", "last_name", "phone_number", "role"]
     );
 
-    if(licenseInfoRegister){
-      const {license_number, certification, license_max_load, start_date, end_date} = licenseInfoRegister;
-      const [license] = await trx("licenses").insert(
-      {
-        user_id: user.id,
+    if (licenseInfoRegister !== null) {
+      const {
         license_number,
         certification,
         license_max_load,
         start_date,
-        end_date
-      },
-      [ "license_id","user_id","license_number", "certification", "license_max_load", "start_date", "end_date"]
-    );
+        end_date,
+      } = licenseInfoRegister;
+      const [license] = await trx("licenses").insert(
+        {
+          user_id: user.id,
+          license_number,
+          certification,
+          license_max_load,
+          start_date,
+          end_date,
+        },
+        [
+          "licenses_id",
+          "user_id",
+          "license_number",
+          "certification",
+          "license_max_load",
+          "start_date",
+          "end_date",
+        ]
+      );
     }
-    
 
     await trx.commit();
   } catch (err) {
@@ -66,14 +80,7 @@ export const getUserByEmail = async (email) => {
 export const getUserByUserID = async (id) => {
   try {
     const user = await dbneon("users")
-      .select(
-        "id",
-        "email",
-        "first_name",
-        "last_name",
-        "phone_number",
-        "role"
-      )
+      .select("id", "email", "first_name", "last_name", "phone_number", "role")
       .where({ id })
       .first();
     return user;
@@ -86,7 +93,8 @@ export const getLicenseByUserID = async (id) => {
   try {
     const userWithLicense = await dbneon("users")
       .select(
-        "licenses.license_id",
+        "licenses.licenses_id",
+        "licenses.user_id",
         "licenses.license_number",
         "licenses.certification",
         "licenses.license_max_load",

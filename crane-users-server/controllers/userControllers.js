@@ -3,6 +3,7 @@ import {
   getUserByEmail,
   getUsers,
   getUserByUserID,
+  getLicenseByUserID,
 } from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -10,22 +11,51 @@ import { config } from "dotenv";
 
 config();
 
-const validateData =(data)=>{
-  Object.values(data).forEach((value) =>{
-    if(!value){
-      return  null
+const validateData = (data) => {
+  Object.values(data).forEach((value) => {
+    if (!value) {
+      data = null;
+      return data;
     }
-  })
-  return data 
-}
+  });
+  return data;
+};
 
 export const register = async (req, res) => {
-  const { email, password, firstName, lastName, phoneNumber, license_number, certification, license_max_load, start_date, end_date} = req.body;
-  const userInfoRegister = {email, password, firstName, lastName, phoneNumber}
-  let licenseInfoRegister = {license_number, certification, license_max_load, start_date, end_date}
-  licenseInfoRegister = validateData(licenseInfoRegister)
+  const {
+    email,
+    password,
+    first_name,
+    last_name,
+    phone_number,
+    role,
+    license_number,
+    certification,
+    license_max_load,
+    start_date,
+    end_date,
+  } = req.body;
+  const userInfoRegister = {
+    email,
+    password,
+    first_name,
+    last_name,
+    phone_number,
+    role,
+  };
+  const licenseInfoRegister = {
+    license_number,
+    certification,
+    license_max_load,
+    start_date,
+    end_date,
+  };
+  const licenseInfoRegisterValidated = validateData(licenseInfoRegister);
   try {
-    const user = await registerUser(userInfoRegister, licenseInfoRegister);
+    const user = await registerUser(
+      userInfoRegister,
+      licenseInfoRegisterValidated
+    );
 
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
@@ -119,10 +149,16 @@ export const userInfo = async (req, res) => {
 export const userLicense = async (req, res) => {
   try {
     const theUserInfo = await getUserByUserID(req.user.userid);
-    if(theUserInfo.role ==="guest"){
-      res.status(404).json({message: "A license for this User was not Found"})
+    if (!theUserInfo) {
+      return res.status(404).json({ message: "User not found" });
     }
-    const theUserLicenses = await getLicenseByUserID(theUserInfo.id)
+
+    if (theUserInfo.role === "guest") {
+      res
+        .status(404)
+        .json({ message: "The User's Role is Guest - he has no license" });
+    }
+    const theUserLicenses = await getLicenseByUserID(theUserInfo.id);
     res.json(theUserLicenses);
   } catch (error) {
     console.log("error=>", error);

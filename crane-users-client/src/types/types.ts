@@ -19,9 +19,10 @@ export interface UserTypeFromAPI{
 
 export interface licenseTypeFromAPI{
         licenses_id: number,
-        licenses_number: number,
+        user_id:number
+        license_number: string,
         certification: string,
-        licenses_max_load: string,
+        license_max_load: string,
         start_date: string,
         end_date: string
 }

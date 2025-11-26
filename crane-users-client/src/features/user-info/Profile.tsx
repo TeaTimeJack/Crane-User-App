@@ -3,11 +3,10 @@ import type {UserTypeFromAPI, licenseTypeFromAPI} from '../../types/types.ts'
 import {useSelector, useDispatch} from 'react-redux'
 import type {RootState, AppDispatch} from '../../app/store.ts'
 import {fetchUserInfo, fetchLicenseInfo} from './state/userInfoSlice.ts'
-import {capitalizeFirstLetter} from '../../app/helpers.ts'
+import {capitalizeFirstLetter, formatDate} from '../../app/helpers.ts'
 import  defProfilePic from "../../assets/images/profile/def-profile-pic.jpg";
 import {useNavigate} from 'react-router'
 import LogoutButton from '../login/LogoutButton'
-
 
 
 const Profile = () => {
@@ -20,11 +19,19 @@ const Profile = () => {
 
   useEffect(()=>{
       dispatch(fetchUserInfo());
+  },[dispatch])
 
-      if(userInfo && userInfo.role !== "guest"){
-        dispatch(fetchLicenseInfo());
-      }
-  },[])
+  useEffect(() => {
+    if (userInfo) { 
+        if (userInfo.role !== "guest") {
+            if (licensestatus !== 'success') { 
+                dispatch(fetchLicenseInfo());
+            }
+        }
+    }
+}, [userInfo]);
+
+  
 
     if(infostatus === "loading") return <h2> loading...</h2>;
     if(infostatus === "failed") return (<div className="row">
@@ -35,10 +42,8 @@ const Profile = () => {
       <div className="row">
         <h2>To see this page - <a className="btn-large" onClick={()=>navigate("/login")}>Log in</a></h2>
       </div>
-    ) 
-  console.log(userInfo);
-  
-  
+    )
+
   return (
     <div>
         <h1>Profile</h1>
@@ -67,19 +72,19 @@ const Profile = () => {
           
            </ul>
         
-        <LogoutButton/>
         </>
         }
         {licenseInfo&& <>
           <ul>
             <li><h5>License Info:</h5></li>
-            <li><p> <i className="material-icons prefix">email</i> Your licenses number: {licenseInfo.licenses_number}</p></li>
-            <li><p> <i className="material-icons prefix">phone</i> Your certification: {licenseInfo.certification}</p></li>
-            <li><p> <i className="material-icons prefix">business_center</i> Your licenses max load: {capitalizeFirstLetter(licenseInfo.licenses_max_load)}</p></li>
-            <li><p> <i className="material-icons prefix">business_center</i> Your licenses start date: {capitalizeFirstLetter(licenseInfo.start_date)}</p></li>
-            <li><p> <i className="material-icons prefix">business_center</i> Your licenses end date: {capitalizeFirstLetter(licenseInfo.end_date)}</p></li>
+            <li><p> <i className="material-icons prefix">email</i> Your licenses number: {licenseInfo.license_number}</p></li>
+            <li><p> <i className="material-icons prefix">phone</i> Your certification: {capitalizeFirstLetter(licenseInfo.certification)}</p></li>
+            <li><p> <i className="material-icons prefix">business_center</i> Your licenses max load: {licenseInfo.license_max_load}</p></li>
+            <li><p> <i className="material-icons prefix">business_center</i> Your licenses start date: {capitalizeFirstLetter(formatDate(licenseInfo.start_date))}</p></li>
+            <li><p> <i className="material-icons prefix">business_center</i> Your licenses end date: {capitalizeFirstLetter(formatDate(licenseInfo.end_date))}</p></li>
           </ul>
         </>}
+        <LogoutButton/>
     </div>
   )
 }

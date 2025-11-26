@@ -95,7 +95,7 @@ const Register = () => {
           {isLicenseChecked&& <>
             <h5>Licenses Info:</h5>
             <div className="input-field">
-              <input id="liceNum" type="text" pattern="[0-9]*" inputMode="numeric" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setLicensesNumber(Number(e.target.value))}  />
+              <input id="liceNum" type="text" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setLicensesNumber(e.target.value)}  />
               <label htmlFor="liceNum">Licenses Number (Type only Numbers)</label>
             </div>
             
