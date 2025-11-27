@@ -1,12 +1,14 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import equipmentsReducer from '../features/lifting-accessorys/state/LiftingCalculatorSlice'
 import userInfoReducer  from '../features/user-info/state/userInfoSlice.ts'
+import fillerPostsReducer from '../features/temp-fillers/state/tempPostsSlice'
 
 
 
 const appReducer = combineReducers({
     equipmentsReducer,
-    userInfoReducer
+    userInfoReducer,
+    fillerPostsReducer
 });
 
 const store = configureStore({

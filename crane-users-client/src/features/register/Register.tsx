@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import type {ChangeEvent} from 'react'
 import axios, {AxiosError} from 'axios'
 import {useNavigate} from 'react-router'
@@ -15,21 +15,34 @@ const Register = () => {
 
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
-    const [firstName, setFirstName] = useState<string>("")
-    const [lastName, setLastName] = useState<string>('')
-    const [phoneNumber, setPhoneNumber] = useState<string>('')
+    const [first_name, setfirst_name] = useState<string>("")
+    const [last_name, setlast_name] = useState<string>('')
+    const [phone_number, setphone_number] = useState<string>('')
+    const [role, setRole] = useState<string>('guest')
 
     const [isLicenseChecked, setIsLicenseChecked] = useState<boolean>(false)
 
-    const [licensesNumber, setLicensesNumber] = useState<number>()
-    const [certification, setCertification] = useState<string>("")
-    const [maxLoad, setMaxLoad] = useState<string>("")
-    const [startDate, setStartDate] = useState<string>('')
-    const [endDate, setEndDate] = useState<string>('')
+    const [license_number, setlicense_number] = useState<string|null>(null)
+    const [certification, setCertification] = useState<string|null>(null)
+    const [start_date, setstart_date] = useState<string|null>(null)
+    const [end_date, setend_date] = useState<string|null>(null)
 
     const [error, setError] = useState<string>('')
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+      if (isLicenseChecked) {
+        setRole("operator")
+      }else{
+        setlicense_number(null);
+        setCertification(null);
+        setstart_date(null);
+        setend_date(null);
+        setRole("guest")
+      }
+    }, [isLicenseChecked])
+    
 
     const handleCheckboxChange = (event:ChangeEvent<HTMLInputElement>) => {
         setIsLicenseChecked(event.target.checked);
@@ -39,28 +52,46 @@ const Register = () => {
         setCertification(event.target.value);
       };
 
+    const getMaxLoad=(certificationINP:string|null)=>{
+      switch (certificationINP) {
+        case "B1":
+          return "30 Tons";
+        case "B2":
+          return "90 Tons";  
+        case "B3":
+          return "150 Tons";  
+        case "B4":
+          return "Unlimited"; 
+        case null:
+          return null;      
+      }
+    }
+
     const handleSubmit =async(e:React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
-        console.log("Hi Register");
+
+        const license_max_load = getMaxLoad(certification);
+        // console.log({email, password,first_name, last_name, phone_number,role,license_number,certification,license_max_load, start_date, end_date});
         
         try {
         const response = await axios.post<RegisterResponse>(
         "http://localhost:5005/api/user/register",
-         {email, password,firstName, lastName, phoneNumber},
+         {email, password,first_name, last_name, phone_number,role,license_number,certification,license_max_load, start_date, end_date},
          {withCredentials: true}
        );
 
-            console.log(response.data);
             setError(response.data.message ?? "")
             setTimeout(() => {
                 navigate("/login")
-            }, 2000);
+            }, 1000);
         
         } catch (err) {
           const axiosErr = err as AxiosError<ErrorResponse>;
           setError(axiosErr.response?.data?.message ?? "Register Failed")
         }
     }
+
+
 
   return (
     <div className="row">
@@ -75,15 +106,15 @@ const Register = () => {
             <label htmlFor="password">Password</label>
           </div>
           <div className="input-field">
-            <input id="first" type="text" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setFirstName(e.target.value)}/>
+            <input id="first" type="text" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setfirst_name(e.target.value)}/>
             <label htmlFor="first">First Name</label>
           </div>
           <div className="input-field">
-            <input id="last" type="text" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setLastName(e.target.value)}/>
+            <input id="last" type="text" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setlast_name(e.target.value)}/>
             <label htmlFor="last">Last Name</label>
           </div>
           <div className="input-field">
-            <input id="phone" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setPhoneNumber(e.target.value)} type="tel" maxLength={10} pattern="[0-9]{10}" title="Phone number must be exactly 10 digits"/>
+            <input id="phone" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setphone_number(e.target.value)} type="tel" maxLength={10} pattern="[0-9]{10}" title="Phone number must be exactly 10 digits"/>
             <label htmlFor="phone">Phone Number</label>
           </div>
 
@@ -95,8 +126,8 @@ const Register = () => {
           {isLicenseChecked&& <>
             <h5>Licenses Info:</h5>
             <div className="input-field">
-              <input id="liceNum" type="text" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setLicensesNumber(e.target.value)}  />
-              <label htmlFor="liceNum">Licenses Number (Type only Numbers)</label>
+              <input id="liceNum" type="text" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setlicense_number(e.target.value)}  />
+              <label htmlFor="liceNum">Licenses Number</label>
             </div>
             
             
@@ -119,9 +150,19 @@ const Register = () => {
                   <span>B4</span>
                 </label>
               </div>
+
+              <div className="input-field">
+                <input id="start_date" type="date" className="datepicker" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setstart_date(e.target.value)}  />
+                <label htmlFor="start_date">Licenses Start Date</label>
+              </div>
+              <div className="input-field">
+                <input id="end_date" type="date" className="datepicker" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setend_date(e.target.value)}  />
+                <label htmlFor="end_date">Licenses End Date</label>
+              </div>
+
           </>}  
           <br/>
-          <input type="submit" value={"Register"} />
+          <input type="submit" value={"Register"} className="btn-large"/>
           {error && <div>{error}</div>}
       </form>
     </div>

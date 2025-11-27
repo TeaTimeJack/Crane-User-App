@@ -31,7 +31,6 @@ const Login = () => {
 
     const handleSubmit =async(e:React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
-        console.log("Hi Login");
         
         try {
             const response = await axios.post<LoginResponse>("http://localhost:5005/api/user/login", 
@@ -39,13 +38,12 @@ const Login = () => {
                 {withCredentials: true}
             );
 
-            console.log(response.data);
             const {user, token} = response.data
             login(user,token)
             setError(response.data.message ?? "")
             setTimeout(() => {
                 navigate("/profile")
-            }, 2000);
+            }, 1000);
         
         
         } catch (error) {
