@@ -7,6 +7,7 @@ import Shop from './features/shop/Shop'
 import News from './features/news/News'
 import LiftingCalculator from './features/lifting-accessorys/LiftingCalculator'
 import Chat from './features/chat-platform/Chat'
+import FillerPosts from './features/temp-fillers/FillerPosts'
 import GovermentLinks from './features/government-facilities/GovermentLinks'
 import  defProfilePic from "./assets/images/profile/def-profile-pic.jpg";
 import LogoutButton from './features/login/LogoutButton'
@@ -14,6 +15,7 @@ import {useSelector} from 'react-redux'
 import type {RootState} from './app/store.ts'
 import type {UserTypeFromAPI} from './types/types.ts'
 import {capitalizeFirstLetter} from './app/helpers.ts'
+import AddFillerPostForm from './features/temp-fillers/components/AddFillerPostForm'
 
 
 function App() {
@@ -21,12 +23,11 @@ function App() {
   const userInfo:UserTypeFromAPI|null = useSelector((state: RootState)=>state.userInfoReducer.info)
 
   return (
-    <>
-      <div>
+    <div>
         <nav>
           <div className="nav-wrapper">
-            <ul className="left hide-on-med-and-down">
-              <li></li>
+            <ul className="left">
+              <a href="#" data-target="slide-out" className="sidenav-trigger show-on-large"><i className="material-icons">menu</i></a>
               <li><Link to={'/'}>Home</Link></li>
               <li><Link to={'/login'}>Login</Link></li>
               <li><Link to={'/register'}>Register</Link></li>
@@ -36,13 +37,15 @@ function App() {
               <li><Link to={'/liftingCalculator'}>Lifting-Calculator</Link></li>
               <li><Link to={'/chat'}>Chat</Link></li>
               <li><Link to={'/govermentLinks'}>GovermentLinks</Link></li>
+              <li><Link to={'/fillerPosts'}>Filler Posts</Link></li>
             </ul>          
           </div>
         </nav>
 
          <ul id="slide-out" className="sidenav">
+            
               <li><div className="user-view">
-                <a href="#user"><img className="circle" src={defProfilePic}/></a>
+                <a href="/profile"><img className="circle center" src={defProfilePic}/></a>
                 {userInfo === null?(
                   <Link to={'/login'}><span className="red-text name">Guest</span></Link>
                 ):(
@@ -58,11 +61,20 @@ function App() {
               <li><Link to={'/liftingCalculator'}>Lifting-Calculator</Link></li>
               <li><Link to={'/chat'}>Chat</Link></li>
               <li><Link to={'/govermentLinks'}>GovermentLinks</Link></li>
-              <li><LogoutButton/></li>
+              <li><Link to={'/fillerPosts'}>Filler Posts</Link></li>
+              <div className="center">
+                {userInfo === null?(
+                  <button className="btn-large"><Link to={'/login'} className="white-text">Log in</Link></button>
+                ):(
+                  <li><LogoutButton/></li>
+                )}
+              
+            </div>
         </ul>
-        <a href="#" data-target="slide-out" className="sidenav-trigger"><i className="material-icons">menu</i></a>
-
-        <div className="container center">
+        <a href="#" data-target="slide-out" className="sidenav-trigger hide-on-med-and-up"><i className="material-icons">menu</i></a>
+        
+        
+        <div className="center">
           <Routes>
             <Route path="/"  element={<Home/>}/>
             <Route path="/login"  element={<Login/>}/>
@@ -73,12 +85,11 @@ function App() {
             <Route path="/liftingCalculator"  element={<LiftingCalculator/>}/>
             <Route path="/chat"  element={<Chat/>}/>
             <Route path="/govermentLinks"  element={<GovermentLinks/>}/>
+            <Route path="/fillerPosts"  element={<FillerPosts/>}/>
+            <Route path="/fillerPosts/addpost"  element={<AddFillerPostForm/>}/>
           </Routes>
         </div>   
-      </div>
-    </>
-
-    
+    </div>
   )
 }
 

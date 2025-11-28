@@ -40,7 +40,7 @@ const initialState:initialStateType = {
   info: null,
   license: null,
   infoStatus: "idle",
-  licenseStatus: "idle"
+  licenseStatus: "idle",
 };
 
 const userInfoSlice = createSlice({

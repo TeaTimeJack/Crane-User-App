@@ -94,79 +94,80 @@ const Register = () => {
 
 
   return (
-    <div className="row">
-      <h2>Register</h2>
-      <form className="col s12" onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column",gap:"10px" }}>
-          <div className="input-field">
-            <input id="email" type="email" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value)}  />
-            <label htmlFor="email">Email</label>
-          </div>
-          <div className="input-field">
-            <input id="password" type="password" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setPassword(e.target.value)} />
-            <label htmlFor="password">Password</label>
-          </div>
-          <div className="input-field">
-            <input id="first" type="text" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setfirst_name(e.target.value)}/>
-            <label htmlFor="first">First Name</label>
-          </div>
-          <div className="input-field">
-            <input id="last" type="text" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setlast_name(e.target.value)}/>
-            <label htmlFor="last">Last Name</label>
-          </div>
-          <div className="input-field">
-            <input id="phone" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setphone_number(e.target.value)} type="tel" maxLength={10} pattern="[0-9]{10}" title="Phone number must be exactly 10 digits"/>
-            <label htmlFor="phone">Phone Number</label>
-          </div>
-
-            <label>
-              <input type="checkbox" className="filled-in" checked={isLicenseChecked} onChange={handleCheckboxChange} />
-              <span>I Have A Crane Operatore License</span>
-            </label>
-
-          {isLicenseChecked&& <>
-            <h5>Licenses Info:</h5>
+    <div className="container">
+      <div className="row">
+        <h2>Register</h2>
+        <form className="col s12" onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column",gap:"10px" }}>
             <div className="input-field">
-              <input id="liceNum" type="text" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setlicense_number(e.target.value)}  />
-              <label htmlFor="liceNum">Licenses Number</label>
+              <input id="email" type="email" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value)}  />
+              <label htmlFor="email">Email</label>
             </div>
-            
-            
-              <div className="row">
-                <p className="col s6"> What is your License Certification: </p>
-                <label className="col s3">
-                  <input className="with-gap" name="group1" type="radio" value="B1" onChange={handleRadioChange}/>
-                  <span>B1</span>
-                </label>
-                <label className="col s3">
-                  <input className="with-gap" name="group1" type="radio" value="B2" onChange={handleRadioChange}/>
-                  <span>B2</span>
-                </label>
-                <label className="col s3">
-                  <input className="with-gap" name="group1" type="radio" value="B3" onChange={handleRadioChange}/>
-                  <span>B3</span>
-                </label>
-                <label className="col s3">
-                  <input className="with-gap" name="group1" type="radio" value="B4" onChange={handleRadioChange}/>
-                  <span>B4</span>
-                </label>
-              </div>
+            <div className="input-field">
+              <input id="password" type="password" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setPassword(e.target.value)} />
+              <label htmlFor="password">Password</label>
+            </div>
+            <div className="input-field">
+              <input id="first" type="text" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setfirst_name(e.target.value)}/>
+              <label htmlFor="first">First Name</label>
+            </div>
+            <div className="input-field">
+              <input id="last" type="text" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setlast_name(e.target.value)}/>
+              <label htmlFor="last">Last Name</label>
+            </div>
+            <div className="input-field">
+              <input id="phone" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setphone_number(e.target.value)} type="tel" maxLength={10} pattern="[0-9]{10}" title="Phone number must be exactly 10 digits"/>
+              <label htmlFor="phone">Phone Number</label>
+            </div>
 
-              <div className="input-field">
-                <input id="start_date" type="date" className="datepicker" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setstart_date(e.target.value)}  />
-                <label htmlFor="start_date">Licenses Start Date</label>
-              </div>
-              <div className="input-field">
-                <input id="end_date" type="date" className="datepicker" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setend_date(e.target.value)}  />
-                <label htmlFor="end_date">Licenses End Date</label>
-              </div>
+              <label>
+                <input type="checkbox" className="filled-in" checked={isLicenseChecked} onChange={handleCheckboxChange} />
+                <span>I Have A Crane Operatore License</span>
+              </label>
 
-          </>}  
-          <br/>
-          <input type="submit" value={"Register"} className="btn-large"/>
-          {error && <div>{error}</div>}
-      </form>
+            {isLicenseChecked&& <>
+              <h5>Licenses Info:</h5>
+              <div className="input-field">
+                <input id="liceNum" type="text" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setlicense_number(e.target.value)}  />
+                <label htmlFor="liceNum">Licenses Number</label>
+              </div>
+              
+              
+                <div className="row">
+                  <p className="col s6"> What is your License Certification: </p>
+                  <label className="col s3">
+                    <input className="with-gap" name="group1" type="radio" value="B1" onChange={handleRadioChange}/>
+                    <span>B1</span>
+                  </label>
+                  <label className="col s3">
+                    <input className="with-gap" name="group1" type="radio" value="B2" onChange={handleRadioChange}/>
+                    <span>B2</span>
+                  </label>
+                  <label className="col s3">
+                    <input className="with-gap" name="group1" type="radio" value="B3" onChange={handleRadioChange}/>
+                    <span>B3</span>
+                  </label>
+                  <label className="col s3">
+                    <input className="with-gap" name="group1" type="radio" value="B4" onChange={handleRadioChange}/>
+                    <span>B4</span>
+                  </label>
+                </div>
+
+                <div className="input-field">
+                  <input id="start_date" type="date" className="datepicker" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setstart_date(e.target.value)}  />
+                  <label htmlFor="start_date">Licenses Start Date</label>
+                </div>
+                <div className="input-field">
+                  <input id="end_date" type="date" className="datepicker" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setend_date(e.target.value)}  />
+                  <label htmlFor="end_date">Licenses End Date</label>
+                </div>
+
+            </>}  
+            <br/>
+            <input type="submit" value={"Register"} className="btn-large"/>
+            {error && <div>{error}</div>}
+        </form>
+      </div>
     </div>
-    
   )
 }
 

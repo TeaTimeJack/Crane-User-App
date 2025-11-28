@@ -37,8 +37,7 @@ const LiftingCalculator = () => {
   
   return (
     <>
-    
-      <div>
+      <div className="container">
         <h2>Lifting Calculator</h2>
         <div className="row">
           <ul id="nav-mobile" className="center">
@@ -47,14 +46,11 @@ const LiftingCalculator = () => {
               <li className="col s4"><button className="waves-effect waves-light btn-large" onClick={()=>toggleCable()}>Cable</button></li>
           </ul>
         </div>
-        
       </div>
       {isChainPressed && <ChainForm />}
       {isStrapPressed && <StrapForm />}
       {isCablePressed && <CableForm />}
-      
     </>
-    
   )
 }
 

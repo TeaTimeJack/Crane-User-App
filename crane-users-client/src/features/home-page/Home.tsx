@@ -1,9 +1,9 @@
-import React from 'react'
+
 
 const Home = () => {
   return (
     <div>
-      <h2>Home</h2>
+      <h2>Welcome To The Crane Users App</h2>
     </div>
   )
 }

@@ -1,9 +1,9 @@
-import { useEffect} from 'react';
+import { useEffect , useState} from 'react';
 import type {UserTypeFromAPI, licenseTypeFromAPI} from '../../types/types.ts'
 import {useSelector, useDispatch} from 'react-redux'
 import type {RootState, AppDispatch} from '../../app/store.ts'
 import {fetchUserInfo, fetchLicenseInfo} from './state/userInfoSlice.ts'
-import {capitalizeFirstLetter, formatDate} from '../../app/helpers.ts'
+import {capitalizeFirstLetter, formatDate, getDaysUntil} from '../../app/helpers.ts'
 import  defProfilePic from "../../assets/images/profile/def-profile-pic.jpg";
 import {useNavigate} from 'react-router'
 import LogoutButton from '../login/LogoutButton'
@@ -13,7 +13,8 @@ const Profile = () => {
   const userInfo:UserTypeFromAPI|null = useSelector((state: RootState)=>state.userInfoReducer.info)
   const infostatus = useSelector((state: RootState)=>state.userInfoReducer.infoStatus)
   const licenseInfo:licenseTypeFromAPI|null = useSelector((state: RootState)=>state.userInfoReducer.license)
-  const licensestatus = useSelector((state: RootState)=>state.userInfoReducer.licenseStatus)
+  const licensestatus = useSelector((state: RootState)=>state.userInfoReducer.licenseStatus);
+  const [daysLeft, setDaysLeft] = useState<number|null>(null)
   const dispatch:AppDispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -21,7 +22,7 @@ const Profile = () => {
       dispatch(fetchUserInfo());
   },[dispatch])
 
-  useEffect(() => {
+  useEffect( () => {
     if (userInfo) { 
         if (userInfo.role !== "guest") {
             if (licensestatus !== 'success') { 
@@ -30,6 +31,14 @@ const Profile = () => {
         }
     }
 }, [userInfo]);
+
+ useEffect(() => {
+        if(licenseInfo){
+          const licenseDaysLeft = getDaysUntil(licenseInfo.end_date);
+          setDaysLeft(licenseDaysLeft)
+          console.log(`You have ${licenseDaysLeft} days untils your license EXPIRES!`)
+        }
+      }, [licenseInfo, dispatch])
 
   
 
@@ -44,8 +53,14 @@ const Profile = () => {
       </div>
     )
 
+
+    
+     
+    
+  
+
   return (
-    <div>
+    <div className="container">
         <h1>Profile</h1>
         {userInfo && 
         <>
@@ -53,35 +68,34 @@ const Profile = () => {
         <div className="row">
           <img className={"responsive-img circle"} style={{height:"30vh" }} src={defProfilePic}/>
           <form action="#">
-          <div className="file-field input-field">
-            <div className="btn">
-              <span>Chnage Photo</span>
-              <input type="file"/>
+            <div className="file-field input-field">
+              <div className="btn">
+                <span>Chnage Photo</span>
+                <input type="file"/>
+              </div>
+              <div className="file-path-wrapper">
+                <input className="file-path validate" type="text"/>
+              </div>
             </div>
-            <div className="file-path-wrapper">
-              <input className="file-path validate" type="text"/>
-            </div>
-          </div>
-        </form>
+          </form>
         </div>
         
         <ul>
           <li><p> <i className="material-icons prefix">email</i> Your Email: {userInfo.email}</p></li>
           <li><p> <i className="material-icons prefix">phone</i> Your Phone Number: {userInfo.phone_number}</p></li>
           <li><p> <i className="material-icons prefix">business_center</i> Your Role: {capitalizeFirstLetter(userInfo.role)}</p></li>
-          
-           </ul>
-        
+        </ul>
         </>
         }
         {licenseInfo&& <>
           <ul>
-            <li><h5>License Info:</h5></li>
+            <li><h4>License Info:</h4></li>
+            <li><h5>You have {daysLeft} days untils your license EXPIRES!</h5></li>
             <li><p> <i className="material-icons prefix">email</i> Your licenses number: {licenseInfo.license_number}</p></li>
             <li><p> <i className="material-icons prefix">phone</i> Your certification: {capitalizeFirstLetter(licenseInfo.certification)}</p></li>
             <li><p> <i className="material-icons prefix">business_center</i> Your licenses max load: {licenseInfo.license_max_load}</p></li>
-            <li><p> <i className="material-icons prefix">business_center</i> Your licenses start date: {capitalizeFirstLetter(formatDate(licenseInfo.start_date))}</p></li>
-            <li><p> <i className="material-icons prefix">business_center</i> Your licenses end date: {capitalizeFirstLetter(formatDate(licenseInfo.end_date))}</p></li>
+            <li><p> <i className="material-icons prefix">business_center</i> Your licenses start date: {formatDate(licenseInfo.start_date)}</p></li>
+            <li><p> <i className="material-icons prefix">business_center</i> Your licenses end date: {formatDate(licenseInfo.end_date)}</p></li>
           </ul>
         </>}
         <LogoutButton/>

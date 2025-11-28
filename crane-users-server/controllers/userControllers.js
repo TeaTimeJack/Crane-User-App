@@ -123,9 +123,8 @@ export const login = async (req, res) => {
 
 export const users = async (req, res) => {
   try {
-    console.log(req.user.userid);
-    console.log(req.user.email);
-
+    // console.log(req.user.userid);
+    // console.log(req.user.email);
     const users = await getUsers();
     res.json(users);
   } catch (error) {
@@ -136,8 +135,8 @@ export const users = async (req, res) => {
 
 export const userInfo = async (req, res) => {
   try {
-    // console.log(req.user.userid);
-    // console.log(req.user.email);
+    console.log(req.user.userid);
+    console.log(req.user.email);
     const theUserInfo = await getUserByUserID(req.user.userid);
     res.json(theUserInfo);
   } catch (error) {
@@ -196,4 +195,15 @@ export const verifyAuth = (req, res) => {
     user: { userid, email },
     token: netAccessToken,
   });
+};
+
+export const getUserInfoById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await getUserByUserID(id);
+    res.json(user);
+  } catch (error) {
+    console.log("error=>", error);
+    res.status(500).json({ message: "internall error" });
+  }
 };

@@ -7,6 +7,7 @@ import {
   verifyAuth,
   userInfo,
   userLicense,
+  getUserInfoById,
 } from "../controllers/userControllers.js";
 import { verifyAccessToken } from "../middlewares/verifyToken.js";
 
@@ -16,6 +17,9 @@ router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", logOut);
 
+router.get('/', users);
+
+router.get("/getuser/:id", getUserInfoById);
 router.get("/info", verifyAccessToken, userInfo);
 router.get("/license", verifyAccessToken, userLicense);
 router.get("/auth", verifyAccessToken, verifyAuth);

@@ -26,13 +26,12 @@ app.use(
   })
 );
 
-// const userRows = await dbneon("users");
+const userRows = await dbneon("users");
 // console.log("users", userRows);
-// const licenceRows = await dbneon("licenses");
+const licenceRows = await dbneon("licenses");
 // console.log("licenses", licenceRows);
-// const filler_posts = await dbneon("filler_posts");
+const filler_posts = await dbneon("filler_posts");
 // console.log("filler_posts", filler_posts);
-
 
 app.use("/api/user", userRouter);
 app.use("/api/fillerposts", fillerPostsRouter);

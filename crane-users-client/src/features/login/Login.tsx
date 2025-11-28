@@ -8,7 +8,6 @@ import type {RootState} from '../../app/store.ts'
 import {capitalizeFirstLetter} from '../../app/helpers.ts'
 import LogoutButton from './LogoutButton'
 
-
  type LoginResponse = {
    message: string;
    user: UserTypeFromAPI,
@@ -63,26 +62,24 @@ const Login = () => {
     }
 
   return (
-    <>
-    <div className="row">
-      <h2>Log In</h2>
-      <form className="col s12" onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column",gap:"10px" }}>
-        <div className="input-field">
-          <input id="email" type="email" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value)}  />
-          <label htmlFor="email">Email</label>
-        </div>
-        <div className="input-field">
-          <input id="password" type="password" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setPassword(e.target.value)} />
-          <label htmlFor="password">Password</label>
-        </div>
-        
-        
-        <input type="submit" value={"Login"} className="btn teal" />
-        {error && <div>{error}</div>}
-    </form>
+    <div className="container">
+      <div className="row">
+        <h2>Log In</h2>
+        <form className="col s12" onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column",gap:"10px" }}>
+          <div className="input-field">
+            <input id="email" type="email" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value)}  />
+            <label htmlFor="email">Email</label>
+          </div>
+          <div className="input-field">
+            <input id="password" type="password" onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setPassword(e.target.value)} />
+            <label htmlFor="password">Password</label>
+          </div>
+      
+          <input type="submit" value={"Login"} className="btn teal" />
+          {error && <div>{error}</div>}
+        </form>
+      </div>
     </div>
-    
-    </>
   )
 }
 

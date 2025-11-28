@@ -58,12 +58,12 @@ const ChainForm = () => {
                 <thead>
                     <tr>
                         <td colSpan={1 + (widths ? widths.length : 0)} style={{textAlign: 'center', fontWeight: 'bold'}}>
-                            <h3>Select the correct information of the Chain</h3>
+                            <h3>Select the information of the CHAIN</h3>
                         </td>
                     </tr>
                     <tr>
                         <td colSpan={1 + (widths ? widths.length : 0)} style={{textAlign: 'center', fontWeight: 'bold'}}>
-                            <span>Current WLL of the Chain: {currentWLL} KG</span>
+                            <span>Current WLL of the CHAIN: {currentWLL} KG</span>
                         </td>
                     </tr>
                 </thead>
