@@ -1,10 +1,11 @@
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import type {ChangeEvent} from 'react'
 import axios, {AxiosError} from 'axios'
 import {useNavigate} from 'react-router'
-// import {useSelector} from 'react-redux'
-// import type {RootState} from '../../../app/store.ts'
+// import {useSelector, useDispatch} from 'react-redux'
+// import type {RootState, AppDispatch} from '../../../app/store.ts'
 // import type {UserTypeFromAPI} from '../../../types/types.ts'
+// import {fetchUserInfo} from '../../user-info/state/userInfoSlice.ts'
 
 
 const AddFillerPostForm = () => {
@@ -19,7 +20,12 @@ const AddFillerPostForm = () => {
     const [payment, setpayment] = useState<string|null>(null)
     const [extra_comments, setextra_comments] = useState<string|null>(null)
     // const userInfo:UserTypeFromAPI|null = useSelector((state: RootState)=>state.userInfoReducer.info);
+    // const dispatch:AppDispatch = useDispatch();
     const [error, setError] = useState<string>('')
+
+      // useEffect(()=>{
+      //     dispatch(fetchUserInfo());
+      // },[dispatch])
 
     interface addPostResponse{
       message?: string;

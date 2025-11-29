@@ -3,6 +3,7 @@ import type {FillerPostsType, UserTypeFromAPI} from '../../types/types.ts'
 import {useSelector, useDispatch} from 'react-redux'
 import type {RootState, AppDispatch} from '../../app/store.ts'
 import {fetchAllPosts} from './state/fillerPostsSlice.ts'
+import {fetchUserInfo} from '../user-info/state/userInfoSlice.ts'
 import FillerCard from "./components/FillerCard"
 import {useNavigate} from 'react-router'
 
@@ -13,7 +14,11 @@ const FillerPosts = () => {
     const dispatch:AppDispatch = useDispatch();
     const navigate = useNavigate();
 
-    useEffect(() => {
+     useEffect(()=>{
+          dispatch(fetchUserInfo());
+      },[dispatch])
+
+    useEffect(() => {        
       dispatch(fetchAllPosts())
     }, []);
     // console.log(userInfo);

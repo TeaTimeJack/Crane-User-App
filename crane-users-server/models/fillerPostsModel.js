@@ -137,6 +137,29 @@ export const getPostsByDate = async (date) => {
   }
 };
 
+export const togglefound = async (postId) =>{
+  const trx = await dbneon.transaction();
+  try {
+    const [post] = await trx("filler_posts")
+      .select("is_filler_found")
+      .where({ post_id: postId });
+    if (!post) {
+      await trx.rollback();
+      throw Error(`Post with ID ${postId} not found.`);
+    }
+    const newStatus = !post.is_filler_found;
+
+     await trx("filler_posts")
+      .where({ post_id: postId })
+      .update({ is_filler_found: newStatus });
+
+    await trx.commit()
+  } catch (error) {
+    await trx.rollback();
+    console.error(`Error toggling is_filler_found for post ${postId}:`, error);
+    throw error;
+  }
+}
 
 // export const getLicenseByUserID = async (id) => {
 //   try {

@@ -1,14 +1,37 @@
-
 import type {FillerPostsType, UserTypeFromGetByID,UserTypeFromAPI} from '../../../types/types.ts'
 import {formatDate, capitalizeFirstLetter} from "../../../app/helpers.ts"
 import {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import type {RootState, AppDispatch} from '../../../app/store.ts'
+import axios from "axios";
 
 const FillerCard = (props:{ postInfo: FillerPostsType }) => {
     const {post_id, user_id, start_date, end_date,work_hours, place, certification_needed, crane_type, payment, extra_comments, is_filler_found} = props.postInfo;
     const [user, setUser] = useState<UserTypeFromGetByID>()
     const loggedUserInfo:UserTypeFromAPI|null = useSelector((state: RootState)=>state.userInfoReducer.info);
+    const [isFound, setisFound] = useState(is_filler_found)
+
+    const handleDeletePost = async ()=>{
+        try {
+             await axios.delete(`http://localhost:5005/api/fillerposts/remove/${post_id}`,{
+                withCredentials: true,
+             });
+        } catch (error) {
+            console.log(error);
+        } 
+    }
+
+    const togglefoundPost =async ()=>{
+        try {
+             await axios.put(`http://localhost:5005/api/fillerposts/togglefound/${post_id}`,{
+                withCredentials: true,
+             });
+        } catch (error) {
+            console.log(error);
+        }
+        setisFound(!isFound)
+    }
+
 
     useEffect(() => {
       const fetchUserInfo =async ()=>{
@@ -84,17 +107,18 @@ const FillerCard = (props:{ postInfo: FillerPostsType }) => {
             </div>
             {loggedUserInfo && user && loggedUserInfo.id === user.id ?(
                 <div className="card-action">
-                    <a href="#" className="activator">EDIT POST</a>
-                    {is_filler_found?(
-                        <a className="btn-floating green"><i className="material-icons">assistant_photo</i></a>
+                    <a>EDIT POST</a>
+                    <a onClick={()=>handleDeletePost()}>DELETE POST</a>
+                    {isFound?(
+                        <a onClick={()=>togglefoundPost()} className="btn-floating green"><i className="material-icons">assistant_photo</i></a>
                     ):(
-                        <a className="btn-floating red"><i className="material-icons">assistant_photo</i></a>   
+                        <a onClick={()=>togglefoundPost()} className="btn-floating red"><i className="material-icons">assistant_photo</i></a>   
                     )}
                 </div>
             ):(
                 <div className="card-action">
-                    <a href="#" className="activator">Operator Details</a>
-                    {is_filler_found?(
+                    <a className="activator">Operator Details</a>
+                    {isFound?(
                         <a className="btn-floating green"><i className="material-icons">assistant_photo</i></a>
                     ):(
                         <a className="btn-floating red"><i className="material-icons">assistant_photo</i></a>   

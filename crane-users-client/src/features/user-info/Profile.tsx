@@ -53,12 +53,6 @@ const Profile = () => {
       </div>
     )
 
-
-    
-     
-    
-  
-
   return (
     <div className="container">
         <h1>Profile</h1>

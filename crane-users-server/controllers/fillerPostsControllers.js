@@ -5,6 +5,7 @@ import {
   getPostsBycertificete,
   getPostsByDate,
   getAllfillerPosts,
+  togglefound
 } from "../models/fillerPostsModel.js";
 import { config } from "dotenv";
 
@@ -41,10 +42,10 @@ export const addFillerPost = async (req, res) => {
   }
 };
 
-export const removeFillerPost = async (req, res)=>{
+export const removeFillerPostById = async (req, res)=>{
     try {
-        console.log(req.user.userid);
-       await removePostById(req.user.userid);
+        const { id } = req.params;
+       await removePostById(id);
        res.json({message:"Your Post Was Deleted"})
     } catch (error) {
         console.log("error=>", error);
@@ -71,3 +72,14 @@ export const getUserPosts = async (req, res) => {
     res.status(500).json({ message: "internall error" });
   }
 };
+
+export const togglefoundById = async (req, res) =>{
+  try {
+    const { id } = req.params;
+      await togglefound(id);
+       res.json({message:"Your found Was toggled"})
+  } catch (error) {
+    console.log("error=>", error);
+        res.status(500).json({ message: "internall error" });
+  }
+}
