@@ -11,7 +11,7 @@ const Tips = () => {
 
   return (
     <div>
-      <h3>{tip}</h3>
+      <h3>Tip: {tip}</h3>
     </div>
   )
 }

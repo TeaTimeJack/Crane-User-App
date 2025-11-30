@@ -1,3 +1,4 @@
+import {useEffect} from 'react'
 import {Routes, Route, Link} from 'react-router'
 import Home from "./features/home-page/Home"
 import Login from './features/login/Login'
@@ -11,16 +12,21 @@ import FillerPosts from './features/temp-fillers/FillerPosts'
 import GovermentLinks from './features/government-facilities/GovermentLinks'
 import  defProfilePic from "./assets/images/profile/def-profile-pic.jpg";
 import LogoutButton from './features/login/LogoutButton'
-import {useSelector} from 'react-redux'
-import type {RootState} from './app/store.ts'
+import {useSelector, useDispatch} from 'react-redux'
+import type {RootState, AppDispatch} from './app/store.ts'
 import type {UserTypeFromAPI} from './types/types.ts'
 import {capitalizeFirstLetter} from './app/helpers.ts'
 import AddFillerPostForm from './features/temp-fillers/components/AddFillerPostForm'
-
+import {fetchUserInfo} from './features/user-info/state/userInfoSlice.ts'
 
 function App() {
  
   const userInfo:UserTypeFromAPI|null = useSelector((state: RootState)=>state.userInfoReducer.info)
+
+    const dispatch:AppDispatch = useDispatch();
+    useEffect(()=>{
+              dispatch(fetchUserInfo());
+    },[dispatch])
 
   return (
     <div>
@@ -29,15 +35,17 @@ function App() {
             <ul className="left">
               <a href="#" data-target="slide-out" className="sidenav-trigger show-on-large"><i className="material-icons">menu</i></a>
               <li><Link to={'/'}>Home</Link></li>
+              {!userInfo&& <>
               <li><Link to={'/login'}>Login</Link></li>
               <li><Link to={'/register'}>Register</Link></li>
+              </>}
               <li><Link to={'/profile'}>Profile</Link></li>
+              <li><Link to={'/liftingCalculator'}>Lifting-Calculator</Link></li>
+              <li><Link to={'/fillerPosts'}>Filler Posts</Link></li>
               <li><Link to={'/shop'}>Shop</Link></li>
               <li><Link to={'/news'}>News</Link></li> 
-              <li><Link to={'/liftingCalculator'}>Lifting-Calculator</Link></li>
-              <li><Link to={'/chat'}>Chat</Link></li>
               <li><Link to={'/govermentLinks'}>GovermentLinks</Link></li>
-              <li><Link to={'/fillerPosts'}>Filler Posts</Link></li>
+              
             </ul>          
           </div>
         </nav>
@@ -53,15 +61,16 @@ function App() {
                 )}
               </div></li>
               <li><Link to={'/'}>Home</Link></li>
+              {!userInfo&& <>
               <li><Link to={'/login'}>Login</Link></li>
               <li><Link to={'/register'}>Register</Link></li>
+              </>}
               <li><Link to={'/profile'}>Profile</Link></li>
-              <li><Link to={'/shop'}>Shop</Link></li>
-              <li><Link to={'/news'}>News</Link></li>
               <li><Link to={'/liftingCalculator'}>Lifting-Calculator</Link></li>
-              <li><Link to={'/chat'}>Chat</Link></li>
-              <li><Link to={'/govermentLinks'}>GovermentLinks</Link></li>
               <li><Link to={'/fillerPosts'}>Filler Posts</Link></li>
+              <li><Link to={'/shop'}>Shop</Link></li>
+              <li><Link to={'/news'}>News</Link></li> 
+              <li><Link to={'/govermentLinks'}>GovermentLinks</Link></li>
               <div className="center">
                 {userInfo === null?(
                   <button className="btn-large"><Link to={'/login'} className="white-text">Log in</Link></button>
@@ -83,7 +92,6 @@ function App() {
             <Route path="/shop"  element={<Shop/>}/>
             <Route path="/news"  element={<News/>}/>
             <Route path="/liftingCalculator"  element={<LiftingCalculator/>}/>
-            <Route path="/chat"  element={<Chat/>}/>
             <Route path="/govermentLinks"  element={<GovermentLinks/>}/>
             <Route path="/fillerPosts"  element={<FillerPosts/>}/>
             <Route path="/fillerPosts/addpost"  element={<AddFillerPostForm/>}/>
