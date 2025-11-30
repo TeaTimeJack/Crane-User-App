@@ -1,5 +1,5 @@
 import {useEffect} from 'react'
-import {Routes, Route, Link} from 'react-router'
+import {Routes, Route, Link, useNavigate} from 'react-router'
 import Home from "./features/home-page/Home"
 import Login from './features/login/Login'
 import Register from './features/register/Register'
@@ -7,7 +7,6 @@ import Profile from './features/user-info/Profile'
 import Shop from './features/shop/Shop'
 import News from './features/news/News'
 import LiftingCalculator from './features/lifting-accessorys/LiftingCalculator'
-import Chat from './features/chat-platform/Chat'
 import FillerPosts from './features/temp-fillers/FillerPosts'
 import GovermentLinks from './features/government-facilities/GovermentLinks'
 import  defProfilePic from "./assets/images/profile/def-profile-pic.jpg";
@@ -22,11 +21,11 @@ import {fetchUserInfo} from './features/user-info/state/userInfoSlice.ts'
 function App() {
  
   const userInfo:UserTypeFromAPI|null = useSelector((state: RootState)=>state.userInfoReducer.info)
-
-    const dispatch:AppDispatch = useDispatch();
-    useEffect(()=>{
-              dispatch(fetchUserInfo());
-    },[dispatch])
+  const navigate = useNavigate()
+  const dispatch:AppDispatch = useDispatch();
+  useEffect(()=>{
+            dispatch(fetchUserInfo());
+  },[dispatch])
 
   return (
     <div>
@@ -73,7 +72,9 @@ function App() {
               <li><Link to={'/govermentLinks'}>GovermentLinks</Link></li>
               <div className="center">
                 {userInfo === null?(
-                  <button className="btn-large"><Link to={'/login'} className="white-text">Log in</Link></button>
+                  <div>
+                    <button className="btn-large teal" onClick={()=>navigate("/login")}>Log In</button>
+                  </div>
                 ):(
                   <li><LogoutButton/></li>
                 )}

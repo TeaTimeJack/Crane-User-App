@@ -13,6 +13,7 @@ const FillerPosts = () => {
     const status = useSelector((state:RootState)=>state.fillerPostsReducer.status);
     const dispatch:AppDispatch = useDispatch();
     const navigate = useNavigate();
+    
 
      useEffect(()=>{
           dispatch(fetchUserInfo());
@@ -22,6 +23,7 @@ const FillerPosts = () => {
       dispatch(fetchAllPosts())
     }, []);
     // console.log(userInfo);
+   
     if(status === "loading") return <h2> loading...</h2>;
     if(status === "failed") return <h2>OOPS...</h2>;
     
@@ -34,7 +36,8 @@ const FillerPosts = () => {
             userInfo&& <button className="btn" onClick={()=>navigate("/fillerPosts/addpost")}>Add Post</button>
         }
         <div className="row">
-            {allPosts && allPosts.map(post =>{
+            {allPosts && 
+             allPosts.map(post =>{
                 return (
                         <div className="col s12 l6" key={post.post_id}>
                             <FillerCard postInfo={post}/>

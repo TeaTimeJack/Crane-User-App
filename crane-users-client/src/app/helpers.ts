@@ -1,3 +1,5 @@
+// import type {FillerPostsType} from '../types/types'
+
 
 export const capitalizeFirstLetter =(str:string):string=> {
   if (!str) { 
@@ -59,6 +61,15 @@ export function getDaysUntil(futureDateString: string): number {
     // Return the result, ensuring it is not negative (if the date is in the past)
     return Math.max(0, dayDifference);
 }
+
+// export function sortPostsByStartDate(posts: FillerPostsType[]): FillerPostsType[] {
+//     posts.sort((a, b) => {
+//         const dateA = new Date(a.start_date);
+//         const dateB = new Date(b.start_date);
+//         return dateA.getTime() - dateB.getTime();
+//     });
+//     return posts;
+// }
 
 export const craneOperatorTips = [
     "Always perform a thorough pre-operation inspection before starting work.",
