@@ -75,7 +75,8 @@ const Register = () => {
         
         try {
         const response = await axios.post<RegisterResponse>(
-        "http://localhost:5005/api/user/register",
+        import.meta.env.VITE_BASE_URL+"/user/register/",
+        // "http://localhost:5005/api/user/register",
          {email, password,first_name, last_name, phone_number,role,license_number,certification,license_max_load, start_date, end_date},
          {withCredentials: true}
        );

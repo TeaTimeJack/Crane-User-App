@@ -12,8 +12,9 @@ const FillerCard = (props:{ postInfo: FillerPostsType }) => {
     const [isFound, setisFound] = useState(is_filler_found)
 
     const handleDeletePost = async ()=>{
+        // `http://localhost:5005/api/fillerposts/remove/${post_id}`
         try {
-             await axios.delete(`http://localhost:5005/api/fillerposts/remove/${post_id}`,{
+             await axios.delete(import.meta.env.VITE_BASE_URL+`/fillerposts/remove/${post_id}`,{
                 withCredentials: true,
              });
         } catch (error) {
@@ -21,9 +22,11 @@ const FillerCard = (props:{ postInfo: FillerPostsType }) => {
         } 
     }
 
+    // import.meta.env.VITE_BASE_URL+`/fillerposts/togglefound/${post_id}`
+
     const togglefoundPost =async ()=>{
         try {
-             await axios.put(`http://localhost:5005/api/fillerposts/togglefound/${post_id}`,{
+             await axios.put(import.meta.env.VITE_BASE_URL+`/fillerposts/togglefound/${post_id}`,{
                 withCredentials: true,
              });
         } catch (error) {
@@ -32,10 +35,10 @@ const FillerCard = (props:{ postInfo: FillerPostsType }) => {
         setisFound(!isFound)
     }
 
-
+// import.meta.env.VITE_BASE_URL+`/user/getuser/${user_id}`
     useEffect(() => {
       const fetchUserInfo =async ()=>{
-        const userResponse = await fetch(`http://localhost:5005/api/user/getuser/${user_id}`);
+        const userResponse = await fetch(import.meta.env.VITE_BASE_URL+`/user/getuser/${user_id}`);
         const userInfo = await userResponse.json();
         // console.log("User:",userInfo);
         setUser(userInfo)

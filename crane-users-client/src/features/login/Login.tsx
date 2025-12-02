@@ -31,8 +31,9 @@ const Login = () => {
     const handleSubmit =async(e:React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
         
+        // "http://localhost:5005/api/user/login"
         try {
-            const response = await axios.post<LoginResponse>("http://localhost:5005/api/user/login", 
+            const response = await axios.post<LoginResponse>(import.meta.env.VITE_BASE_URL+"/user/login/" , 
                 {email, password},
                 {withCredentials: true}
             );

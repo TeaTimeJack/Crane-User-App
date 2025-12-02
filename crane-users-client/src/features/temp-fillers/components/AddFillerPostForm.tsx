@@ -44,7 +44,8 @@ const AddFillerPostForm = () => {
         const work_hours = `${start_hour}-${end_hour}`;  
         try {
         const response = await axios.post<addPostResponse>(
-        "http://localhost:5005/api/fillerposts/add",
+          import.meta.env.VITE_BASE_URL+"/fillerposts/add",
+        // "http://localhost:5005/api/fillerposts/add",
          {start_date, end_date,work_hours, place,certification_needed,crane_type,payment,extra_comments},
          {withCredentials: true}
        );

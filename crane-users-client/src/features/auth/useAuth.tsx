@@ -108,8 +108,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     const refreshToken = async () => {
+        // 'http://localhost:5005/api/user/auth'
         try {
-            const response = await axios.get<{ user: UserTypeFromAPI, token: string }>('http://localhost:5005/api/user/auth', {
+            const response = await axios.get<{ user: UserTypeFromAPI, token: string }>(import.meta.env.VITE_BASE_URL+"/user/auth/", {
                 withCredentials: true
             });
             const { user: refreshedUser, token: refreshedToken } = response.data;

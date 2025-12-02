@@ -14,8 +14,9 @@ const LogoutButton = () => {
 
     const handleLogOut =async() =>{
         console.log("Hi Log Out");
+        // "http://localhost:5005/api/user/logout"
         try {
-            const response = await axios.post("http://localhost:5005/api/user/logout",
+            const response = await axios.post(import.meta.env.VITE_BASE_URL+"/user/logout/",
               {},
               {withCredentials: true}
             );
