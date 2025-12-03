@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import data from '../data/accesories.json'
 import {capitalizeFirstLetter} from '../../../app/helpers.ts'
 import straightKnotImg from '../../../assets/images/knotTypes/straight.jpg';
@@ -10,7 +10,7 @@ import closedHamekKnotImg from '../../../assets/images/knotTypes/closed-hamek.jp
 const StrapForm = () => {
     const colors = data.strap.colors
     const numberOf =[1,2,3,4,5,6,7,8];
-    const angles = data.angles;
+    // const angles = data.angles;
     const knotsTypes = data.knotTypes
     const knotsIMG =[
         {name:"straight", image: straightKnotImg},

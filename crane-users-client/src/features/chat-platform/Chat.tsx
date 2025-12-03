@@ -1,6 +1,4 @@
 
-
-
 const Chat = () => {
   return (
     <div>

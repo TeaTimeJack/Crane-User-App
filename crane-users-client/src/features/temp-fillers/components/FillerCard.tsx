@@ -1,8 +1,8 @@
 import type {FillerPostsType, UserTypeFromGetByID,UserTypeFromAPI} from '../../../types/types.ts'
 import {formatDate, capitalizeFirstLetter} from "../../../app/helpers.ts"
 import {useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux'
-import type {RootState, AppDispatch} from '../../../app/store.ts'
+import {useSelector} from 'react-redux'
+import type {RootState} from '../../../app/store.ts'
 import axios from "axios";
 
 const FillerCard = (props:{ postInfo: FillerPostsType }) => {

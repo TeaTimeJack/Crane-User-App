@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
-import {useSelector, useDispatch } from "react-redux";
-import type {RootState, AppDispatch} from '../../app/store.ts'
+import {useSelector } from "react-redux";
+import type {RootState} from '../../app/store.ts'
 // import {addChain, addStrap, addCable} from './state/LiftingCalculatorSlice.ts'
 import ChainForm from './components/ChainForm'
 import StrapForm from './components/StrapForm'
