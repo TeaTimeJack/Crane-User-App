@@ -22,7 +22,11 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:5173", "http://mydomain.com"],
+    origin: [
+      "https://crane-app.netlify.app",
+      "http://localhost:5173",
+      "http://mydomain.com",
+    ],
   })
 );
 
