@@ -100,6 +100,7 @@ export const login = async (req, res) => {
 
     res.cookie("apptoken", accessToken, {
       httpOnly: true,
+      JSON: true,
       maxAge: 86400 * 1000, //same as 1 day
     });
 
