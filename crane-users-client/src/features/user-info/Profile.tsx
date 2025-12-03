@@ -20,6 +20,7 @@ const Profile = () => {
 
   useEffect(()=>{
       dispatch(fetchUserInfo());
+      // localStorage.getItem("userInfo")
   },[dispatch])
 
   useEffect( () => {

@@ -26,6 +26,7 @@ const LogoutButton = () => {
             console.log(axiosErr);
         }
         dispatch(logOut())
+        localStorage.remove("userInfo")
     }
 
   return (

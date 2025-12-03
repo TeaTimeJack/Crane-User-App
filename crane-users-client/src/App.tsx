@@ -27,6 +27,11 @@ function App() {
             dispatch(fetchUserInfo());
   },[dispatch])
 
+  useEffect(() => {
+    localStorage.setItem("userInfo",JSON.stringify(userInfo))
+  }, [])
+  
+
   return (
     <div>
         <nav>
