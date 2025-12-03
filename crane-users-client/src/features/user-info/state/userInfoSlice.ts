@@ -6,9 +6,8 @@ import type {UserTypeFromAPI, licenseTypeFromAPI} from "../../../types/types.ts"
 
 // const INFO_URL = "http://localhost:5005/api/user/info";
 // const LICENSE_URL = "http://localhost:5005/api/user/license";
-
-const INFO_URL = import.meta.env.VITE_BASE_URL+"/user/info";
-const LICENSE_URL = import.meta.env.VITE_BASE_URL+"/user/license";
+const INFO_URL = import.meta.env.VITE_BASE_URL+"/user/info/";
+const LICENSE_URL = import.meta.env.VITE_BASE_URL+"/user/license/";
 
 export const fetchUserInfo = createAsyncThunk("userinfo/fetch", async () => {
     try {
@@ -17,7 +16,7 @@ export const fetchUserInfo = createAsyncThunk("userinfo/fetch", async () => {
         })
         return response.data
     } catch (error) {
-        // console.log("the eror happens when u fetch user info: ", error);
+        console.log("the eror happens when u fetch user info: ", error);
         throw  error;
     }
 });
