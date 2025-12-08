@@ -4,14 +4,14 @@ import axios from "axios";
 import type {FillerPostsType } from "../../../types/types.ts"
 
 // const fillerPOSTS_URL = "http://localhost:5005/api/fillerposts/";
-const fillerPOSTS_URL = import.meta.env.VITE_BASE_URL+"/fillerposts/";
+const fillerPOSTS_URL = import.meta.env.VITE_BASE_URL+"/fillerposts";
 
 export const fetchAllPosts = createAsyncThunk("fillerPosts/fetch", async () => {
     try {
         const response = await axios.get(fillerPOSTS_URL)
         return response.data
     } catch (error) {
-        // console.log("the eror happens when u fetch user info: ", error);
+        console.log("the eror happens when u fetch Filller Posts info: ", error);
         throw  error;
     }
 });
