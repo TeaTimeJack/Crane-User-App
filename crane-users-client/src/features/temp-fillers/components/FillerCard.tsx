@@ -102,8 +102,24 @@ const FillerCard = (props:{ postInfo: FillerPostsType }) => {
                     </> 
             ):(
                 <>
-                <span className="card-title grey-text text-darken-4">No Name<i className="material-icons right">close</i></span>
-                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                <span className="card-title grey-text text-darken-4">The Operator's Name <i className="material-icons right">close</i></span>
+                        <p>Here is a DEMO of some more information about this Operator that is only revealed once clicked on like:.</p>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><i className="material-icons prefix">phone</i></td>
+                                    <td>052-1234567</td>
+                                </tr>
+                                <tr>
+                                    <td><i className="material-icons prefix">email</i></td>
+                                    <td>user@email.com</td>
+                                </tr>
+                                <tr>
+                                    <td><i className="material-icons prefix">comment</i></td>
+                                    <td>The extra comments from the "Add Post" Form</td>
+                                </tr>
+                            </tbody>
+                        </table>
                 </>
             )}
                 

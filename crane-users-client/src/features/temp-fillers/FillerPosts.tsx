@@ -34,6 +34,7 @@ const FillerPosts = () => {
         <div className="col s12">
             <h2>Filler Posts</h2>
         </div>
+        <button className="btn" onClick={()=>navigate("/fillerPosts/addpost")}>DEMO: Add Post</button>
         <div className="row">
             {demoAllPosts && 
              demoAllPosts.map(post =>{
