@@ -47,15 +47,17 @@ const Profile = () => {
     if(infostatus === "failed") {
       const demoUser = {"id":18,"email":"tohar@email.com","first_name":"tohar","last_name":"jackson","phone_number":"0525666669","role":"operator"}
       const demoUserLicense = {"licenses_id": 9,"user_id": 18,"license_number": "8877799","certification": "B1","license_max_load": "30 Tons","start_date": "2025-10-31T22:00:00.000Z","end_date": "2025-12-31T22:00:00.000Z"}
+      const demolicenseDaysLeft = getDaysUntil(demoUserLicense.end_date);
 
       return (
       <div className="row">
         <h2>OOPS...</h2> 
         <h2>To see this page - <a className="btn-large" onClick={()=>navigate("/login")}>Log in</a></h2>
         <h3>Considering Sever is Ofline - This is A Demo Version:</h3>
+        <br></br>
 
         <div className="container">
-        <h1>Profile</h1>
+        <h1>DEMO Profile</h1>
         {demoUser && 
         <>
         <h3>Hello {capitalizeFirstLetter(demoUser.first_name)} {capitalizeFirstLetter(demoUser.last_name)}</h3>
@@ -84,7 +86,7 @@ const Profile = () => {
         {demoUserLicense&& <>
           <ul>
             <li><h4>License Info:</h4></li>
-            <li><h5>You have {daysLeft} days untils your license EXPIRES!</h5></li>
+            <li><h5>You have {demolicenseDaysLeft} days untils your license EXPIRES!</h5></li>
             <li><p> <i className="material-icons prefix">email</i> Your licenses number: {demoUserLicense.license_number}</p></li>
             <li><p> <i className="material-icons prefix">phone</i> Your certification: {capitalizeFirstLetter(demoUserLicense.certification)}</p></li>
             <li><p> <i className="material-icons prefix">business_center</i> Your licenses max load: {demoUserLicense.license_max_load}</p></li>
