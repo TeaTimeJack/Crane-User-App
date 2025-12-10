@@ -46,7 +46,7 @@ const Profile = () => {
     if(infostatus === "loading") return <h2> loading...</h2>;
     if(infostatus === "failed") {
       const demoUser = {"id":18,"email":"tohar@email.com","first_name":"tohar","last_name":"jackson","phone_number":"0525666669","role":"operator"}
-      const demoUserLicense = {"licenses_id": 9,"user_id": 18,"license_number": "8877799","certification": "B1","license_max_load": "30 Tons","start_date": "2025-10-31T22:00:00.000Z","end_date": "2025-12-31T22:00:00.000Z"}
+      const demoUserLicense = {"licenses_id": 9,"user_id": 18,"license_number": "8877799","certification": "B1","license_max_load": "30 Tons","start_date": "2025-10-31T22:00:00.000Z","end_date": "2026-12-31T22:00:00.000Z"}
       const demolicenseDaysLeft = getDaysUntil(demoUserLicense.end_date);
 
       return (
