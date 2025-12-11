@@ -55,7 +55,6 @@ function App() {
         </nav>
 
          <ul id="slide-out" className="sidenav">
-            
               <li><div className="user-view">
                 <a href="/profile"><img className="circle center" src={defProfilePic}/></a>
                 {userInfo === null?(
@@ -86,7 +85,7 @@ function App() {
               
             </div>
         </ul>
-        <a href="#" data-target="slide-out" className="sidenav-trigger hide-on-med-and-up"><i className="material-icons">menu</i></a>
+        {/* <a href="#" data-target="slide-out" className="sidenav-trigger hide-on-med-and-up"><i className="material-icons">menu</i></a> */}
         
         
         <div className="center">
